@@ -1,4 +1,3 @@
-import React,{Component} from 'react';
 import {createAppContainer,createSwitchNavigator,createDrawerNavigator,createStackNavigator} from 'react-navigation';
 
 //qito screena i shtina me ni navigator tjeter qe ka mu pararqit nese useri osht i llogum 
