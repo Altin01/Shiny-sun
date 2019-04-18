@@ -9,7 +9,7 @@ export default class WelcomeScreen extends Component {
                   Sign in Screen
                 </Text>
             </View>
-        )
+        )   
     }
 }
 const style = StyleSheet.create({

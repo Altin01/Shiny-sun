@@ -26,7 +26,7 @@ const homeDrawerNavigator = createDrawerNavigator({
 
 //stackNav qe i man screena-t qe sherbejn per mu llogu useri
 const registerStackNavigator = createStackNavigator({
-   Welcome : WelcomeScreen,
+   //Welcome : WelcomeScreen,
    Signin : SigninScreen,
    Signup : SignupScreen
 
