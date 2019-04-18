@@ -3,7 +3,7 @@ import {Text,TextInput,Button,View,TouchableOpacity,StyleSheet}from 'react-nativ
 
 
 
-export default class LoginScreen  extends Component{
+export default class SigninScreen  extends Component{
     
     render(){
         return(
