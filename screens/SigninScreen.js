@@ -35,7 +35,7 @@ export default class SigninScreen  extends Component{
 
 <Button title="Register Here"
 color="#1abc9c"
-onPress={()=>this.props.navigation.navigate('Register')}
+onPress={()=>this.props.navigation.navigate('Signup')}
 />
   </View>
 </View>
