@@ -8,7 +8,7 @@ export default class AuthLoadingScreen extends Component {
     }
     loadApp = async()=>{
        const userToken = await AsyncStorage.getItem('userToken');
-       this.props.navigation.navigate(userToken ? 'Home':'Register');
+       this.props.navigation.navigate('Home');
 
     }
     render(){
@@ -21,6 +21,7 @@ export default class AuthLoadingScreen extends Component {
 }
 const style = StyleSheet.create({
     container :{
+        flex:1,
         backgroundColor:'#fff',
         justifyContent :'center',
         alignItems :'center'
