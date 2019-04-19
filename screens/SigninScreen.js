@@ -8,37 +8,32 @@ export default class SigninScreen  extends Component{
     render(){
         return(
 
-  <View style={styles.container}>
-  <View style={styles.textfields}>
-  <TextInput style={styles.input}
-  placeholder="Username"
-  returnKeyType="next"
-  onSubmitEditing={()=>this.passwordInput.focus()}
-  keyboardType="email-address"
-  autoCapitalze="none"
-  autoCorrect={false}
+        <View style={styles.container}>
+                <View style={styles.textfields}>
+                  <TextInput style={styles.input}
+                        placeholder="Username"
+                        returnKeyType="next"
+                        onSubmitEditing={()=>this.passwordInput.focus()}
+                        keyboardType="email-address"
+                        autoCapitalze="none"
+                        autoCorrect={false}
+                   />
+                 <TextInput style={styles.input}
+                        placeholder="Password"
+                        returnKeyType="go"
+                        secureTextEntry
+                        ref={(input)=> this.passwordInput=input}
+                  />
+                <TouchableOpacity style={styles.buttoncontainer} onPress={()=>this.props.navigation.navigate('Home')}>
+                        <Text style={styles.buttontext}>Login</Text>
+                </TouchableOpacity>
 
-
-  />
-
-
-  <TextInput style={styles.input}
-            placeholder="Password"
-            returnKeyType="go"
-            secureTextEntry
-            ref={(input)=> this.passwordInput=input}
-
-        />
-  <TouchableOpacity style={styles.buttoncontainer} onPress={()=>this.props.navigation.navigate('Login')}>
-  <Text style={styles.buttontext}>Login</Text>
-  </TouchableOpacity>
-
-<Button title="Register Here"
-color="#1abc9c"
-onPress={()=>this.props.navigation.navigate('Signup')}
-/>
-  </View>
-</View>
+                <Button title="Register Here"
+                color="#1abc9c"
+                onPress={()=>this.props.navigation.navigate('Signup')}
+                />
+            </View>
+        </View>
         );
     }
 }
