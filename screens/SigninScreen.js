@@ -1,40 +1,61 @@
-import React ,{Component}from 'react';
+import React ,{Component,Fragment}from 'react';
 import {Text,TextInput,Button,View,TouchableOpacity,StyleSheet}from 'react-native';
+import { Mutation } from 'react-apollo';
+import { LOGIN } from '../graphql/mutation';
 
 
 
 export default class SigninScreen  extends Component{
-    
-    render(){
-        return(
+    state ={
+     email:'',
+     password:''
+    };
 
-        <View style={styles.container}>
+    render(){
+        return(<View style={styles.container}>
                 <View style={styles.textfields}>
                   <TextInput style={styles.input}
-                        placeholder="Username"
+                        placeholder="Email"
                         returnKeyType="next"
                         onSubmitEditing={()=>this.passwordInput.focus()}
                         keyboardType="email-address"
                         autoCapitalze="none"
                         autoCorrect={false}
+                        value={this.state.email}
+                        onChangeText={email=>this.setState({email})}    
                    />
                  <TextInput style={styles.input}
                         placeholder="Password"
                         returnKeyType="go"
                         secureTextEntry
                         ref={(input)=> this.passwordInput=input}
+                        value={this.state.password}
+                        onChangeText={password=>this.setState({password})}
                   />
-                <TouchableOpacity style={styles.buttoncontainer} onPress={()=>this.props.navigation.navigate('Home')}>
-                        <Text style={styles.buttontext}>Login</Text>
-                </TouchableOpacity>
-
+                  <Mutation mutation={LOGIN}>{(logIn)=>(
+                      <Fragment>
+                          <View>{!!error && error.graphQlErrors.map(({message})=>(<Text>
+                              {message}
+                          </Text>))}</View>
+                        <TouchableOpacity style={styles.buttoncontainer} onPress={(login,{loading,data,error})=>{
+                        login({
+                            variables:{
+                                email:this.state.email,
+                                password:this.state.password
+                            }
+                        })
+                        }}>
+                            <Text style={styles.buttontext}>Login</Text>
+                        </TouchableOpacity>
+                     </Fragment>
+                  )}</Mutation>
+           
                 <Button title="Register Here"
                 color="#1abc9c"
                 onPress={()=>this.props.navigation.navigate('Signup')}
                 />
             </View>
-        </View>
-        );
+        </View>);
     }
 }
 

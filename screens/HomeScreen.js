@@ -28,7 +28,8 @@ export default class HomeScreen extends React.Component {
           this.state ={
             cameraPermission:null,
             type:Camera.Constants.Type.back,
-            pictureUrl:''
+            pictureUrl:'',
+            t: true
           };
          this.camera;
         
@@ -38,20 +39,36 @@ export default class HomeScreen extends React.Component {
    componentDidMount= async ()=>{
         const camera = await Permissions.askAsync(Permissions.CAMERA);
         const cameraPermission  = (camera.status === 'granted');
+        console.log(cameraPermission);
         this.setState({cameraPermission});
+
+        const didFocusSubscription = this.props.navigation.addListener(
+          'didFocus',
+          payload => {
+            this.setState({
+              t: true
+            });
+            console.debug('didBlur', payload);
+          }
+        );
+
+        const didBlurSubscription = this.props.navigation.addListener(
+          'didBlur',
+          payload => {
+            this.setState({
+              t: false
+            });
+            console.debug('didBlur', payload);
+          }
+        );
       
    } 
-   componentWillReceiveProps = async ()=>{
-    const camera = await Permissions.askAsync(Permissions.CAMERA);
-    const cameraPermission  = (camera.status === 'granted');
-    this.setState({cameraPermission});
-  
-   }
+
    takePicture= async ()=>{
     if(this.camera){
       let photo = await this.camera.takePictureAsync();
         this.setState({pictureUrl:photo.uri});
-        alert(this.state.pictureUrl);
+   
         this.props.navigation.navigate('image',this.state)
     }
     
@@ -91,11 +108,13 @@ export default class HomeScreen extends React.Component {
                               </View>
                           </TouchableWithoutFeedback>
                       </View>
+                      {this.state.t == true && 
                       <Camera
                              type={this.state.type}
                             style={styles.preview}
                             ref={camera => this.camera = camera}
                       />
+                      }
                       <View style={styles.posht}>
                            <TouchableWithoutFeedback style={styles.cameratouch} onPress={this.takePicture}>
                              <Ionicons style={{marginBottom:22}} name="md-add-circle" color="white" size={70} />

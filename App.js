@@ -4,6 +4,9 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 
 import SwitchNavigation from './navigation/SwitchNavigation';
 
+import ApolloClient   from './screens/ApolloScreen';
+import {ApolloProvider} from 'react-apollo';
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
@@ -21,7 +24,9 @@ export default class App extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-           <SwitchNavigation />
+          <ApolloProvider client={ApolloClient}>
+             <SwitchNavigation />
+          </ApolloProvider>
         </View>
       );
     }
