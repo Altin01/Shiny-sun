@@ -11,6 +11,8 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import SigninScreen from '../screens/SigninScreen';
 import SignupScreen from '../screens/SignupScreen';
 
+import ImageScreen from '../screens/ImageScreen';
+
 //drawer navigatori qe i man screenat kryesore te appit masi tllogohet useri
 const homeDrawerNavigator = createDrawerNavigator({
     Home :{
@@ -21,7 +23,8 @@ const homeDrawerNavigator = createDrawerNavigator({
     },
     Settings : {
         screen :SettingsScreen
-    }
+    },
+    image : ImageScreen
 })
 
 //stackNav qe i man screena-t qe sherbejn per mu llogu useri

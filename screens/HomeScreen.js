@@ -26,25 +26,43 @@ export default class HomeScreen extends React.Component {
     constructor(props){
           super(props);
           this.state ={
-            cameraPermission:null
+            cameraPermission:null,
+            type:Camera.Constants.Type.back,
+            pictureUrl:''
           };
-         this.camera ;
-         this.loadApp();
+         this.camera;
+        
     }
-   
-   loadApp=async ()=>{
+    
+
+   componentDidMount= async ()=>{
         const camera = await Permissions.askAsync(Permissions.CAMERA);
         const cameraPermission  = (camera.status === 'granted');
         this.setState({cameraPermission});
       
    } 
+   componentWillReceiveProps = async ()=>{
+    const camera = await Permissions.askAsync(Permissions.CAMERA);
+    const cameraPermission  = (camera.status === 'granted');
+    this.setState({cameraPermission});
+  
+   }
+   takePicture= async ()=>{
+    if(this.camera){
+      let photo = await this.camera.takePictureAsync();
+        this.setState({pictureUrl:photo.uri});
+        alert(this.state.pictureUrl);
+        this.props.navigation.navigate('image',this.state)
+    }
+    
+   }
 
   render() {
         if(this.state.cameraPermission === null) {
         return (
             <View style={styles.container}>
                 <Text style={{color:'white'}}>
-               Something went wrong
+                 Something went wrong
                
                 </Text>
                   
@@ -55,23 +73,33 @@ export default class HomeScreen extends React.Component {
                 Camera Premissions is Denied
            </Text>
       }
-      return(
+      return( 
         <View style={styles.container}>
                       <View style={styles.nalt}>
-                      <TouchableWithoutFeedback style={styles.menuView} onPress={()=>this.props.navigation.toggleDrawer()}>
-                          <View style={styles.menuView}>
-                            <Ionicons style={{top:'2%'}} name="md-menu" size={34} color="white" />
-                         </View>
-                         </TouchableWithoutFeedback>
+                          <TouchableWithoutFeedback style={styles.menuView} onPress={()=>this.props.navigation.toggleDrawer()}>
+                              <View style={styles.menuView}>
+                                <Ionicons style={{top:'2%'}} name="md-menu" size={34} color="white" />
+                            </View>
+                          </TouchableWithoutFeedback>
+                          <TouchableWithoutFeedback style={styles.flip} onPress={()=> this.setState({
+                               type: this.state.type === Camera.Constants.Type.back
+                                ? Camera.Constants.Type.front
+                                : Camera.Constants.Type.back,
+                            })}>
+                               <View style={styles.menuView}>
+                                <Ionicons style={{top:'2%'}} name="md-sync" size={34} color="white"   />
+                              </View>
+                          </TouchableWithoutFeedback>
                       </View>
                       <Camera
+                             type={this.state.type}
                             style={styles.preview}
                             ref={camera => this.camera = camera}
                       />
                       <View style={styles.posht}>
-                          <Text>
-                              Hello
-                          </Text>
+                           <TouchableWithoutFeedback style={styles.cameratouch} onPress={this.takePicture}>
+                             <Ionicons style={{marginBottom:22}} name="md-add-circle" color="white" size={70} />
+                           </TouchableWithoutFeedback>
                       </View>
             </View>)
 
@@ -97,7 +125,8 @@ const styles = StyleSheet.create({
     backgroundColor:'black',
     top:0,
     bottom:0,
-    
+    justifyContent:'center',
+    alignItems:'center'  
 
 
   } ,
@@ -114,5 +143,22 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
    
+  },
+  cameratouch : {
+    height:70,
+    width:70,
+    alignItems:'center',
+    justifyContent:'center',
+    borderWidth:1,
+    marginBottom:10
+
+
+  },
+  flip :{
+    height :'100%',
+    width:'20%',
+    justifyContent:'center',
+    alignItems:'center',
+  
   }
 });
