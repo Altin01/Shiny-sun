@@ -53,9 +53,17 @@ export default class SigninScreen  extends Component{
                                             password:this.state.password
                                     }
                                 });
-                                let token = data.login.token;
-                                await AsyncStorage.setItem('@toka-dhe-dielli:token',token);
+                              
+                               const {payload,error}  = data.login;
+                             
+                               if(payload){
+
+                                await AsyncStorage.setItem('@toka-dhe-dielli:token',payload.token);
                                 this.props.navigation.navigate('Home');
+
+                               }
+                               
+                               
                         }}>
                                <Text style={styles.buttontext}>
                                   Login
@@ -63,7 +71,7 @@ export default class SigninScreen  extends Component{
                         </TouchableOpacity>
                      </Fragment>
                   )}</Mutation>
-           
+
                 <Button 
                     title="Register Here"
                     color="#1abc9c"
