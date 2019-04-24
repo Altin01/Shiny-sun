@@ -9,7 +9,8 @@ import {
   TouchableWithoutFeedback,
   View,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  CameraRoll
 } from 'react-native';
 
 import { WebBrowser,Camera,Permissions } from 'expo';
@@ -29,7 +30,8 @@ export default class HomeScreen extends React.Component {
             cameraPermission:null,
             type:Camera.Constants.Type.back,
             pictureUrl:'',
-            t: true
+            t: true,
+            camera_roll_permission:false
           };
          this.camera;
         
@@ -38,8 +40,12 @@ export default class HomeScreen extends React.Component {
 
    componentDidMount= async ()=>{
         const camera = await Permissions.askAsync(Permissions.CAMERA);
+        const camera_roll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         const cameraPermission  = (camera.status === 'granted');
+        const camera_roll_permission = (camera_roll === 'granted');
+        
         console.log(cameraPermission);
+        this.setState({camera_roll_permission:true})
         this.setState({cameraPermission});
 
         const didFocusSubscription = this.props.navigation.addListener(
@@ -65,12 +71,14 @@ export default class HomeScreen extends React.Component {
    } 
 
    takePicture= async ()=>{
-    if(this.camera){
-      let photo = await this.camera.takePictureAsync();
-        this.setState({pictureUrl:photo.uri});
-   
-        this.props.navigation.navigate('image',this.state)
-    }
+    if(this.camera && this.state.camera_roll_permission){
+        let photo = await this.camera.takePictureAsync();
+        CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
+          alert("Your picture is saved in your gallery");
+        }).catch((err)=>{
+          alert(err);
+        })
+     }
     
    }
 
