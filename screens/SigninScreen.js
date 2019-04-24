@@ -1,11 +1,20 @@
 import React ,{Component,Fragment}from 'react';
-import {Text,TextInput,Button,View,TouchableOpacity,StyleSheet}from 'react-native';
+import {
+    Text,
+    TextInput,
+    Button,
+    View,
+    TouchableOpacity,
+    StyleSheet,
+    AsyncStorage
+} from 'react-native';
 import { Mutation } from 'react-apollo';
 import { LOGIN } from '../graphql/mutation';
 
-
+import Errors from '../components/Errors';
 
 export default class SigninScreen  extends Component{
+    
     state ={
      email:'',
      password:''
@@ -14,6 +23,7 @@ export default class SigninScreen  extends Component{
     render(){
         return(<View style={styles.container}>
                 <View style={styles.textfields}>
+
                   <TextInput style={styles.input}
                         placeholder="Email"
                         returnKeyType="next"
@@ -24,6 +34,7 @@ export default class SigninScreen  extends Component{
                         value={this.state.email}
                         onChangeText={email=>this.setState({email})}    
                    />
+
                  <TextInput style={styles.input}
                         placeholder="Password"
                         returnKeyType="go"
@@ -32,27 +43,32 @@ export default class SigninScreen  extends Component{
                         value={this.state.password}
                         onChangeText={password=>this.setState({password})}
                   />
-                  <Mutation mutation={LOGIN}>{(logIn)=>(
+
+                  <Mutation mutation={LOGIN}>{(logIn,{loading,data,error})=>(
                       <Fragment>
-                          <View>{!!error && error.graphQlErrors.map(({message})=>(<Text>
-                              {message}
-                          </Text>))}</View>
-                        <TouchableOpacity style={styles.buttoncontainer} onPress={(login,{loading,data,error})=>{
-                        login({
-                            variables:{
-                                email:this.state.email,
-                                password:this.state.password
-                            }
-                        })
+                        <Errors errors={error} />
+                        <TouchableOpacity style={styles.buttoncontainer} onPress={async()=>{
+                               let { data }= await login({
+                                    variables:{
+                                            email:this.state.email,
+                                            password:this.state.password
+                                    }
+                                });
+                                let token = data.login.token;
+                                await AsyncStorage.setItem('@toka-dhe-dielli:token',token);
+                                this.props.navigation.navigate('Home');
                         }}>
-                            <Text style={styles.buttontext}>Login</Text>
+                               <Text style={styles.buttontext}>
+                                  Login
+                               </Text>
                         </TouchableOpacity>
                      </Fragment>
                   )}</Mutation>
            
-                <Button title="Register Here"
-                color="#1abc9c"
-                onPress={()=>this.props.navigation.navigate('Signup')}
+                <Button 
+                    title="Register Here"
+                    color="#1abc9c"
+                    onPress={()=>this.props.navigation.navigate('Signup')}
                 />
             </View>
         </View>);
