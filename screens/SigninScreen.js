@@ -44,7 +44,7 @@ export default class SigninScreen  extends Component{
                         onChangeText={password=>this.setState({password})}
                   />
 
-                  <Mutation mutation={LOGIN}>{(logIn,{loading,data,error})=>(
+                  <Mutation mutation={LOGIN}>{(login,{loading,data,error})=>(
                       <Fragment>
                         <Errors errors={error} />
                         <TouchableOpacity style={styles.buttoncontainer} onPress={async()=>{

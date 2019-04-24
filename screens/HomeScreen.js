@@ -10,7 +10,8 @@ import {
   View,
   Dimensions,
   ActivityIndicator,
-  CameraRoll
+  CameraRoll,
+  AsyncStorage
 } from 'react-native';
 
 import { WebBrowser,Camera,Permissions } from 'expo';
@@ -115,10 +116,16 @@ export default class HomeScreen extends React.Component {
                                 <Ionicons style={{top:'2%'}} name="md-sync" size={34} color="white"   />
                               </View>
                           </TouchableWithoutFeedback>
+                          <Text style={{size:40,color:'white'}} onPress={async()=>{
+                            await AsyncStorage.removeItem('@toka-dhe-dielli:token');
+                            this.props.navigation.navigate('Register');
+                          }}>
+                            Logout
+                          </Text>
                       </View>
                       {this.state.t == true && 
                       <Camera
-                             type={this.state.type}
+                            type={this.state.type}
                             style={styles.preview}
                             ref={camera => this.camera = camera}
                       />
