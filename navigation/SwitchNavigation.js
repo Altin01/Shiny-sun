@@ -10,6 +10,8 @@ import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SigninScreen from '../screens/SigninScreen';
 import SignupScreen from '../screens/SignupScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+
 
 
 
@@ -24,6 +26,9 @@ const homeDrawerNavigator = createDrawerNavigator({
     Settings : {
         screen :SettingsScreen
     },
+    Profile :{
+        screen: ProfileScreen
+    }
  
 })
 

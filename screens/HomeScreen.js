@@ -116,12 +116,7 @@ export default class HomeScreen extends React.Component {
                                 <Ionicons style={{top:'2%'}} name="md-sync" size={34} color="white"   />
                               </View>
                           </TouchableWithoutFeedback>
-                          <Text style={{size:40,color:'white',marginTop:20}} onPress={async()=>{
-                            await AsyncStorage.removeItem('@toka-dhe-dielli:token');
-                            this.props.navigation.navigate('Register');
-                          }}>
-                            Logout
-                          </Text>
+                          
                       </View>
                       {this.state.t == true && 
                       <Camera
