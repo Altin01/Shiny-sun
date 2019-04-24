@@ -39,7 +39,6 @@ export default class SigninScreen  extends Component{
                         placeholder="Password"
                         returnKeyType="go"
                         secureTextEntry
-                        ref={(input)=> this.passwordInput=input}
                         value={this.state.password}
                         onChangeText={password=>this.setState({password})}
                   />

@@ -32,7 +32,7 @@ const registerStackNavigator = createStackNavigator({
    Welcome : WelcomeScreen,
    Signin : SigninScreen,
    Signup : SignupScreen
-
+  
 })
 
 
