@@ -12,6 +12,7 @@ import {Mutation} from 'react-apollo';
 import {SIGNUP} from '../graphql/mutation';
 
 import Errors from '../components/Errors';
+import Loading from '../components/Loading';
 
 export default class SignupScreen extends Component{
     static navigationOptions = {
@@ -37,6 +38,8 @@ export default class SignupScreen extends Component{
      return(
 
         <View>
+            <Mutation mutation={SIGNUP}>{(signup,{loading,data,error})=>(
+               <Fragment>
             <RegisterInput 
              onChangeText={(text)=> this.setState({name:text})}
              value={this.state.name}
@@ -57,9 +60,8 @@ export default class SignupScreen extends Component{
                 secureTextEntry
             ></RegisterInput>
 
-            <Mutation mutation={SIGNUP}>{(signup,{loading,data,error})=>(
-               <Fragment>
-                   <Errors errors={error} />
+          
+                  
                     <TouchableOpacity style={styles.buttoncontainer} onPress={async()=>{
                               
                               let { data }= await signup({
@@ -77,6 +79,9 @@ export default class SignupScreen extends Component{
                             Register
                         </Text>
                  </TouchableOpacity>
+                
+                
+                {loading? <Loading />: <Errors error={error} />}
                </Fragment>
                 )}
             </Mutation>

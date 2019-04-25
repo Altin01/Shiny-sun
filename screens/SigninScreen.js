@@ -6,12 +6,14 @@ import {
     View,
     TouchableOpacity,
     StyleSheet,
-    AsyncStorage
+    AsyncStorage,
+    ActivityIndicator
 } from 'react-native';
 import { Mutation } from 'react-apollo';
 import { LOGIN } from '../graphql/mutation';
 
 import Errors from '../components/Errors';
+import Loading from '../components/Loading';
 
 export default class SigninScreen  extends Component{
     
@@ -23,60 +25,59 @@ export default class SigninScreen  extends Component{
     render(){
         return(<View style={styles.container}>
                 <View style={styles.textfields}>
+                    <Mutation mutation={LOGIN}>{(login,{loading,data,error})=>(
+                        <Fragment>
+                            <TextInput style={styles.input}
+                                    placeholder="Email"
+                                    returnKeyType="next"
+                                    onSubmitEditing={()=>this.passwordInput.focus()}
+                                    keyboardType="email-address"
+                                    autoCapitalze="none"
+                                    autoCorrect={false}
+                                    value={this.state.email}
+                                    onChangeText={email=>this.setState({email})}    
+                            />
 
-                  <TextInput style={styles.input}
-                        placeholder="Email"
-                        returnKeyType="next"
-                        onSubmitEditing={()=>this.passwordInput.focus()}
-                        keyboardType="email-address"
-                        autoCapitalze="none"
-                        autoCorrect={false}
-                        value={this.state.email}
-                        onChangeText={email=>this.setState({email})}    
-                   />
+                            <TextInput style={styles.input}
+                                    placeholder="Password"
+                                    returnKeyType="go"
+                                    secureTextEntry
+                                    value={this.state.password}
+                                    onChangeText={password=>this.setState({password})}
+                            />
 
-                 <TextInput style={styles.input}
-                        placeholder="Password"
-                        returnKeyType="go"
-                        secureTextEntry
-                        value={this.state.password}
-                        onChangeText={password=>this.setState({password})}
-                  />
-
-                  <Mutation mutation={LOGIN}>{(login,{loading,data,error})=>(
-                      <Fragment>
-                        <Errors errors={error} />
-                        <TouchableOpacity style={styles.buttoncontainer} onPress={async()=>{
-                               let { data }= await login({
-                                    variables:{
+                            
+                                    
+                            <TouchableOpacity style={styles.buttoncontainer} onPress={async()=>{
+                                    let { data }= await login({
+                                        variables:{
                                             email:this.state.email,
                                             password:this.state.password
-                                    }
-                                });
-                              
-                               const {payload,error}  = data.login;
-                             
-                               if(payload){
+                                            }
+                                        });
+                                        
+                                        const {payload,error}  = data.login;
+                                        
+                                        if(payload){
 
-                                await AsyncStorage.setItem('@toka-dhe-dielli:token',payload.token);
-                                this.props.navigation.navigate('Home');
+                                            await AsyncStorage.setItem('@toka-dhe-dielli:token',payload.token);
+                                            this.props.navigation.navigate('Home');
 
-                               }
-                               
-                               
-                        }}>
-                               <Text style={styles.buttontext}>
-                                  Login
-                               </Text>
-                        </TouchableOpacity>
-                     </Fragment>
-                  )}</Mutation>
+                                        }
+                              }}>
+                                <Text style={styles.buttontext}>
+                                    Login
+                                </Text>
+                            </TouchableOpacity>
+                            { loading ? <Loading /> :<Errors error={error} />}
+                         </Fragment>
+                    )}</Mutation>
 
-                <Button 
-                    title="Register Here"
-                    color="#1abc9c"
-                    onPress={()=>this.props.navigation.navigate('Signup')}
-                />
+                    <Button 
+                        title="Register Here"
+                        color="#1abc9c"
+                        onPress={()=>this.props.navigation.navigate('Signup')}
+                    />
             </View>
         </View>);
     }
