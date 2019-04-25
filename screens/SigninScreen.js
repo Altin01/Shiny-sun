@@ -30,7 +30,7 @@ export default class SigninScreen  extends Component{
                             <TextInput style={styles.input}
                                     placeholder="Email"
                                     returnKeyType="next"
-                                    onSubmitEditing={()=>this.passwordInput.focus()}
+                                    // onSubmitEditing={()=>this.passwordInput.focus()}
                                     keyboardType="email-address"
                                     autoCapitalze="none"
                                     autoCorrect={false}
