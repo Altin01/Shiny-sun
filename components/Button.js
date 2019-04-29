@@ -2,7 +2,7 @@
         import {TouchableOpacity,StyleSheet,View,Text}from "react-native";
 
 
-        export default class ButtonSingin extends React.Component {
+        export default class Button  extends React.Component {
         
         
             render() {

@@ -4,7 +4,8 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    AsyncStorage
+    AsyncStorage,
+    Button
 }from "react-native";
 import RegisterInput from '../components/RegisterInput';
 
@@ -76,7 +77,7 @@ export default class SignupScreen extends Component{
                                 this.props.navigation.navigate('Home'); 
                         }}>
                         <Text style={styles.buttontext}>
-                            Register
+                           SingUp
                         </Text>
                  </TouchableOpacity>
                 
@@ -85,6 +86,7 @@ export default class SignupScreen extends Component{
                </Fragment>
                 )}
             </Mutation>
+      
        </View>);
      }
   }
@@ -99,18 +101,6 @@ export default class SignupScreen extends Component{
         
             },
          
-            buttoncontainer:{
-                height:50,
-                borderRadius:50,
-                backgroundColor:'#1abc9c',
-                justifyContent:'center'
-            },
-            buttontext:{
-                textAlign:'center',
-                color:'#ecf0f1',
-                fontSize:20,
-                
-            },
             text:{
                 marginBottom:40,
                 textAlign:'center',
@@ -119,6 +109,19 @@ export default class SignupScreen extends Component{
                 
             },
          
-          
+            buttoncontainer:{
+                height:50,
+                borderRadius:50,
+                backgroundColor:'#1abc9c',
+                justifyContent:'center'
+              
+            },
+            buttontext:{
+        
+                textAlign:'center',
+                color:'#ecf0f1',
+                fontSize:20
+            
+            }
         });
         

@@ -1,6 +1,6 @@
         import React,{Component} from 'react';
         import {View,Text,StyleSheet} from 'react-native';
-        import ButtonSingin from '../components/ButtonSingin';
+        import Button from '../components/Button';
 
         export default class WelcomeScreen extends Component {
             static navigationOptions = {
@@ -10,8 +10,8 @@
                 return(
                     <View style={style.container}>
                         
-                        <ButtonSingin   onPress={()=>this.props.navigation.navigate('Signin')}  name="Signin" navigo='Signin' />
-                        <ButtonSingin   onPress={()=>this.props.navigation.navigate('Signup')}  name="Regjistrohu" navigo='Signup'/>
+                        <Button   onPress={()=>this.props.navigation.navigate('Signin')}  name="Signin" navigo='Signin' />
+                        <Button   onPress={()=>this.props.navigation.navigate('Signup')}  name="Singup" navigo='Signup'/>
                     </View>
                 )
             }

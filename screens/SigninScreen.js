@@ -66,7 +66,7 @@ export default class SigninScreen  extends Component{
                                         }
                               }}>
                                 <Text style={styles.buttontext}>
-                                    Login
+                                      Login
                                 </Text>
                             </TouchableOpacity>
                             { loading ? <Loading /> :<Errors error={error} />}
@@ -74,7 +74,7 @@ export default class SigninScreen  extends Component{
                     )}</Mutation>
 
                     <Button 
-                        title="Register Here"
+                        title="Register here"
                         color="#1abc9c"
                         onPress={()=>this.props.navigation.navigate('Signup')}
                     />
