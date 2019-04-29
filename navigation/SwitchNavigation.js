@@ -11,7 +11,7 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import SigninScreen from '../screens/SigninScreen';
 import SignupScreen from '../screens/SignupScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-
+import CameraScreen from '../screens/CameraScreen';
 
 
 
@@ -20,17 +20,18 @@ const homeDrawerNavigator = createDrawerNavigator({
     Home :{
         screen : HomeScreen,
     },
-    Link :{
-        screen:LinkScreen
+    Camera :{
+        screen:CameraScreen
     },
     Settings : {
-        screen :SettingsScreen
+       screen :SettingsScreen
     },
     Profile :{
         screen: ProfileScreen
     }
  
-})
+},
+)
 
 //stackNav qe i man screena-t qe sherbejn per mu llogu useri
 const registerStackNavigator = createStackNavigator({
@@ -40,11 +41,12 @@ const registerStackNavigator = createStackNavigator({
   
 })
 
+//ni stack navigator per homescreen 
 
 //qyky osht parent navigatori qe ka dis anvaigator brenda si child 
 const switchNavigator = createSwitchNavigator({
   AuthLoading : AuthLoadingScreen,
-  Home : homeDrawerNavigator,
+  Home :homeDrawerNavigator,
   Register : registerStackNavigator
 
   
