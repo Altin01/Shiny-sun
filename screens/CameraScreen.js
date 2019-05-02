@@ -24,7 +24,9 @@ const { width: winWidth, height: winHeight } = Dimensions.get('window');
 export default class HomeScreen extends React.Component {
      static navigationOptions = {
         header: null,
+        tabBarVisible :false
       };
+      
     constructor(props){
           super(props);
           this.state ={
@@ -172,7 +174,8 @@ const styles = StyleSheet.create({
     top:0,
     bottom:0,
     justifyContent:'center',
-    alignItems:'center'  
+    alignItems:'center',
+  
 
 
   } ,

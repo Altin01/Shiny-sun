@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   StyleSheet,
   Text,
@@ -10,8 +9,6 @@ import {
 
 
 import { Ionicons } from '@expo/vector-icons';
-
-
 
 
 export default class HomeScreen extends React.Component {
@@ -36,24 +33,7 @@ export default class HomeScreen extends React.Component {
     }else {
       return(
         <View style={styles.container}>
-            <View style={styles.nalt}>
-                 <TouchableWithoutFeedback  onPress={()=>this.props.navigation.toggleDrawer()} >
-                    <View style={styles.icon_view} >
-                      
-                      <Ionicons size={39} color="black" name="md-menu" />
-                    
-                    </View>
-                  </TouchableWithoutFeedback>
-                  <View>
-                    
-                  </View>
-                  <View>
-                    
-                  </View>
-                  <View>
-                    
-                  </View>
-           </View>
+            
            <View style={styles.main}>
               <TouchableWithoutFeedback style={{height:'auto',width:'auto'}} onPress={()=>this.props.navigation.navigate('Camera')}>
                 <Ionicons size={50} name="md-camera" />
@@ -76,16 +56,7 @@ const styles = StyleSheet.create({
     flexDirection:'column',
     
   },
-   nalt :{
-     height:'10%',
-     borderColor:'#D5CECE',
-     width:'100%',
-     flexDirection:'row',
-    borderWidth:1,
-    top:'6%',
-    backgroundColor:'#E3E3E3'
-
-   },
+  
    icon_view :{
      height:'100%',
      width:'25%',
