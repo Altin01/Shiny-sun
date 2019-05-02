@@ -13,7 +13,7 @@
                 <View>
 
                     <TextInput  
-                    style={styles.input}
+                    style={[styles.input,{width:props.width}]}
                     value={props.value}
                     onChangeText={props.onChangeText}
                     placeholder={props.placeholder}

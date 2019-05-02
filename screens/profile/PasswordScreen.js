@@ -1,34 +1,76 @@
-import React ,{Component} from 'react';
-import {
-    View,
-    StyleSheet,
-    Text
-} from 'react-native';
+                import React ,{Component} from 'react';
+                import {
+                    View,
+                    StyleSheet,
+                    Text,
+                    Dimensions
+                } from 'react-native';
 
-export default class PasswordScreen extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
+                import RegisterInput from '../../components/RegisterInput';
 
-        };
-    }
 
-    render(){
-        return(
-            <View style={styles.container}>  
-               <Text>
-                   Pasword
-               </Text>
-            </View>
-        );
-    }
-}
+      let {height,width}=Dimensions.get('window')
 
-const styles = StyleSheet.create({
-    container : {
-      backgroundColor:'#fff',
-      justifyContent:'center',
-      alignItems:'center'
-    },
+                export default class PasswordScreen extends Component{
 
-})
+                    constructor(props) {
+                        super(props);
+
+                            this.state = {
+                            oldPassword: "",
+                            newPassword: "",
+                            confirmPassword: ""
+                        };
+                    }
+
+
+                render(){
+                    return(
+                <View style={styles.container}>
+
+                <RegisterInput
+                    style={styles.Inputat}
+                    width={width}
+                    placeholder="Old Password"
+                    returnKeyType="pass"
+                    onChangeText={(oldPassword) => this.setState({oldPassword})} value={this.state.oldPassword}
+                    secureTextEntry
+                />
+
+                <RegisterInput 
+                    style={styles.Inputat}
+                    width={width}
+                    placeholder="New Password"
+                    returnKeyType="pass"
+                    onChangeText={(newPassword) => this.setState({newPassword})} value={this.state.newPassword}
+                    secureTextEntry
+                />
+
+
+                <RegisterInput 
+                    style={styles.Inputat}
+                    width={width}
+                    placeholder="Confirm Password"
+                    returnKeyType="pass"
+                    onChangeText={(confirmPassword) => this.setState({confrimPassword})} value={this.state.confirmPassword}
+                    secureTextEntry
+                />
+
+
+                </View>
+
+
+                );
+                }}
+
+
+                const styles = StyleSheet.create({
+                    container : {
+                    backgroundColor:'#fff',
+                    justifyContent:'center',
+                    alignItems:'center',
+                    padding:20
+                    },
+
+
+                })
