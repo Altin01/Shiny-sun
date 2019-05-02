@@ -3,16 +3,22 @@ import {
     View,
     StyleSheet,
     Text,
-    AsyncStorage
+    AsyncStorage,
+    Dimensions
     
 } from 'react-native';
-import Button from '../../components/Button';
+import ProfileButton from '../../components/ProfileButton';
 
+let {height,width} = Dimensions.get('window');
 export default class LogoutScreen extends Component {
     render(){
         return(
             <View style={styles.container}>
-                  <Button name="Log out"  onPress={()=>{
+               
+
+                  <ProfileButton
+                   width={width}
+                   name="Log out"  onPress={()=>{
                    AsyncStorage.removeItem('@toka-dhe-dielli:token');
                    this.props.navigation.navigate('Register');
                }} />
