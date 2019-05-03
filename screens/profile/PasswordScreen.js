@@ -4,7 +4,8 @@
                     StyleSheet,
                     Text,
                     Dimensions,
-                    AsyncStorage
+                    AsyncStorage,
+                    TouchableOpacity
                 } from 'react-native';
 
                 import RegisterInput from '../../components/RegisterInput';
@@ -14,6 +15,8 @@
                 
                 import Errors from '../../components/Errors';
                 import Loading from '../../components/Loading';
+
+
       let {height,width}=Dimensions.get('window')
 
                 export default class PasswordScreen extends Component{
@@ -58,14 +61,15 @@
                                 width={width}
                                 placeholder="Confirm Password"
                                 returnKeyType="pass"
-                                onChangeText={(confirmPassword) => this.setState({confrimPassword})} value={this.state.confirmPassword}
+                                onChangeText={(confirmPassword) => this.setState({confirmPassword})} value={this.state.confirmPassword}
                                 secureTextEntry
                             />
                                 
                                 {loading? <Loading />: <Errors  error={error} />}
                                         <TouchableOpacity style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
+                                                           console.log(JSON.stringify(AsyncStorage.getItem('id')))
                                                         
-                                                await editPassword({
+                                                let {data} = await editPassword({ 
                                                                 variables:{
                                                                     id:AsyncStorage.getItem('id'),
                                                                     password:this.state.oldPassword,
@@ -73,13 +77,12 @@
                                                                     confirmPassword:this.state.confirmPassword   
                                                                 }
                                                             });
-                                                        
                                                             AsyncStorage.removeItem('@toka-dhe-dielli:token');
                                                             AsyncStorage.removeItem('id');
                                                             this.props.navigation.navigate('Register'); 
                                                     }}>
                                                     <Text style={styles.buttontext}>
-                                                        SingUp
+                                                        Edit
                                                     </Text>
                                             </TouchableOpacity>
                                             
