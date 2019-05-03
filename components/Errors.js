@@ -8,7 +8,7 @@ StyleSheet
 export default function Errors({error}){
    
     return(
-            <View style={{height:40,}}>{!!error && error.graphQLErrors.map( ({message}) =>(<Text style={{color:'red',fontSize:15}}>
+            <View style={{height:40,}}>{!!error && error.graphQLErrors.map( ({message},i) =>(<Text key={i} style={{color:'red',fontSize:15}}>
                 {message}
                  
             </Text>))}</View>

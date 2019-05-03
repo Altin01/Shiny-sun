@@ -1,14 +1,19 @@
-                import React ,{Component} from 'react';
-                import {
+      import React ,{Component,Fragment} from 'react';
+       import {
                     View,
                     StyleSheet,
                     Text,
-                    Dimensions
+                    Dimensions,
+                    AsyncStorage
                 } from 'react-native';
 
                 import RegisterInput from '../../components/RegisterInput';
 
-
+                import {Mutation} from 'react-apollo';
+                import {EDIT_PASSWORD} from '../../graphql/mutation';
+                
+                import Errors from '../../components/Errors';
+                import Loading from '../../components/Loading';
       let {height,width}=Dimensions.get('window')
 
                 export default class PasswordScreen extends Component{
@@ -24,39 +29,61 @@
                     }
 
 
-                render(){
-                    return(
+ render(){
+     return(
                 <View style={styles.container}>
+                     <Mutation mutation={EDIT_PASSWORD}>{(editPassword,{loading,data,error})=>(
+                        <Fragment>
+                            <RegisterInput
+                            
+                                width={width}
+                                placeholder="Old Password"
+                                returnKeyType="pass"
+                                onChangeText={(oldPassword) => this.setState({oldPassword})} value={this.state.oldPassword}
+                                secureTextEntry
+                            />
 
-                <RegisterInput
-                    style={styles.Inputat}
-                    width={width}
-                    placeholder="Old Password"
-                    returnKeyType="pass"
-                    onChangeText={(oldPassword) => this.setState({oldPassword})} value={this.state.oldPassword}
-                    secureTextEntry
-                />
-
-                <RegisterInput 
-                    style={styles.Inputat}
-                    width={width}
-                    placeholder="New Password"
-                    returnKeyType="pass"
-                    onChangeText={(newPassword) => this.setState({newPassword})} value={this.state.newPassword}
-                    secureTextEntry
-                />
-
-
-                <RegisterInput 
-                    style={styles.Inputat}
-                    width={width}
-                    placeholder="Confirm Password"
-                    returnKeyType="pass"
-                    onChangeText={(confirmPassword) => this.setState({confrimPassword})} value={this.state.confirmPassword}
-                    secureTextEntry
-                />
+                            <RegisterInput 
+                            
+                                width={width}
+                                placeholder="New Password"
+                                returnKeyType="pass"
+                                onChangeText={(newPassword) => this.setState({newPassword})} value={this.state.newPassword}
+                                secureTextEntry
+                            />
 
 
+                            <RegisterInput 
+                            
+                                width={width}
+                                placeholder="Confirm Password"
+                                returnKeyType="pass"
+                                onChangeText={(confirmPassword) => this.setState({confrimPassword})} value={this.state.confirmPassword}
+                                secureTextEntry
+                            />
+                                
+                                {loading? <Loading />: <Errors  error={error} />}
+                                        <TouchableOpacity style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
+                                                        
+                                                await editPassword({
+                                                                variables:{
+                                                                    id:AsyncStorage.getItem('id'),
+                                                                    password:this.state.oldPassword,
+                                                                    newPassword:this.state.newPassword,
+                                                                    confirmPassword:this.state.confirmPassword   
+                                                                }
+                                                            });
+                                                        
+                                                            AsyncStorage.removeItem('@toka-dhe-dielli:token');
+                                                            AsyncStorage.removeItem('id');
+                                                            this.props.navigation.navigate('Register'); 
+                                                    }}>
+                                                    <Text style={styles.buttontext}>
+                                                        SingUp
+                                                    </Text>
+                                            </TouchableOpacity>
+                                            
+             </Fragment> )}</Mutation>
                 </View>
 
 
@@ -69,8 +96,24 @@
                     backgroundColor:'#fff',
                     justifyContent:'center',
                     alignItems:'center',
-                    padding:20
+                    paddingLeft:20,
+                    paddingRight:20
                     },
+                    buttoncontainer:{
+                        height:50,
+                        borderRadius:50,
+                        backgroundColor:'#1abc9c',
+                        justifyContent:'center',
+                        alignItems:'center'
+                      
+                    },
+                    buttontext:{
+                
+                        textAlign:'center',
+                        color:'#ecf0f1',
+                        fontSize:20
+                    
+                    }
 
 
                 })

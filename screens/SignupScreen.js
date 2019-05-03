@@ -1,28 +1,30 @@
-            import React, {Component,Fragment} from 'react';
-            import {
-                View,
-                Text,
-                TouchableOpacity,
-                StyleSheet,
-                AsyncStorage,
-                Button
-            }from "react-native";
-            import RegisterInput from '../components/RegisterInput';
+import React, {Component,Fragment} from 'react';
+import {
+        View,
+        Text,
+        TouchableOpacity,
+        StyleSheet,
+        AsyncStorage,
+        Dimensions
+}from "react-native";
+import RegisterInput from '../components/RegisterInput';
 
-            import {Mutation} from 'react-apollo';
-            import {SIGNUP} from '../graphql/mutation';
+import {Mutation} from 'react-apollo';
+import {SIGNUP} from '../graphql/mutation';
 
-            import Errors from '../components/Errors';
-            import Loading from '../components/Loading';
+import Errors from '../components/Errors';
+import Loading from '../components/Loading';
+let {height,width} = Dimensions.get('window');
 
-            export default class SignupScreen extends Component{
-                static navigationOptions = {
-                    title: 'Sign up',
-                };
+export default class SignupScreen extends Component{
+    static navigationOptions = {
+        title: 'Sign up',
+        };
                 state={
                     name:"",
                     email:"",
                     password:"",
+                    confirmPassword:"",
                     fieldName:"",
                         
                     }
@@ -38,52 +40,68 @@
             render(){ 
                 return(
 
-                    <View>
+                    <View style={styles.container}>
                         <Mutation mutation={SIGNUP}>{(signup,{loading,data,error})=>(
-                        <Fragment>
-                        <RegisterInput 
-                        onChangeText={(text)=> this.setState({name:text})}
-                        value={this.state.name}
-                        placeholder="First Name"></RegisterInput>
+                            <Fragment>
+                                    <RegisterInput 
+                                        bottom={20}
+                                        width={width} 
+                                        onChangeText={(text)=> this.setState({name:text})}
+                                        value={this.state.name}
+                                        placeholder="First Name" 
+                                        />
 
-                        <RegisterInput 
-                            style={styles.RegisterInput}
-                            onChangeText={(text)=> this.setState({email:text})}
-                            value={this.state.email}
-                            placeholder="Email-Address"></RegisterInput>
+                                    <RegisterInput 
+                                        bottom={20}
+                                        width={width}
+                                        onChangeText={(text)=> this.setState({email:text})}
+                                        value={this.state.email}
+                                        placeholder="Email-Address" 
+                                    />
 
+                                    <RegisterInput 
+                                       bottom={20}
+                                        width={width}    
+                                        onChangeText={(text)=> this.setState({password:text})}
+                                        value={this.state.password}
+                                        placeholder="Password (should be at least 8)"
+                                        secureTextEntry
+                                    />
+                                
+                                    <RegisterInput
 
-                        <RegisterInput    
-                            style={styles.RegisterInput}
-                            onChangeText={(text)=> this.setState({password:text})}
-                            value={this.state.password}
-                            placeholder="Password"
-                            secureTextEntry
-                        ></RegisterInput>
-
-                    
-                            
-                                <TouchableOpacity style={styles.buttoncontainer} onPress={async()=>{
+                                        bottom={0}
+                                        width={width}   
+                                        onChangeText={(text)=> this.setState({confirmPassword:text})}
+                                        value={this.state.confirmPassword}
+                                        placeholder="Confirm Password"
+                                        secureTextEntry
+                                    />
+                                
+                                    {loading? <Loading />: <Errors  error={error} />}
+                                    <TouchableOpacity style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
+                                                    
+                                                    let { data }= await signup({
+                                                            variables:{
+                                                                    email:this.state.email,
+                                                                    name:this.state.name,
+                                                                    password:this.state.password,
+                                                                    confirmPassword:this.state.confirmPassword
+                                                            }
+                                                        });
+                                                        let token = data.signup.token;
+                                                        await AsyncStorage.setItem('@toka-dhe-dielli:token',token);
+                                                        await AsyncStorage.setItem('id',data.signup.user.id);
+                                                        this.props.navigation.navigate('Home'); 
+                                                }}>
+                                                <Text style={styles.buttontext}>
+                                                    SingUp
+                                                </Text>
+                                        </TouchableOpacity>
                                         
-                                        let { data }= await signup({
-                                                variables:{
-                                                        email:this.state.email,
-                                                        name:this.state.name,
-                                                        password:this.state.password
-                                                }
-                                            });
-                                            let token = data.signup.token;
-                                            await AsyncStorage.setItem('@toka-dhe-dielli:token',token);
-                                            this.props.navigation.navigate('Home'); 
-                                    }}>
-                                    <Text style={styles.buttontext}>
-                                    SingUp
-                                    </Text>
-                            </TouchableOpacity>
-                            
-                            
-                            {loading? <Loading />: <Errors error={error} />}
-                        </Fragment>
+                                    
+                                  
+                            </Fragment>
                             )}
                         </Mutation>
                 
@@ -94,10 +112,11 @@
 
         const styles = StyleSheet.create({ 
             container:{
-                padding:20,
-                flex:1,
+                paddingLeft:20,
+                paddingRight:20,
+                backgroundColor:'#fff',
                 justifyContent:'center',
-                alignItems:'stretch',
+                alignItems:'center'
         
             },
          
@@ -113,7 +132,8 @@
                 height:50,
                 borderRadius:50,
                 backgroundColor:'#1abc9c',
-                justifyContent:'center'
+                justifyContent:'center',
+                alignItems:'center'
               
             },
             buttontext:{

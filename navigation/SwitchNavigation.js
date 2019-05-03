@@ -27,131 +27,25 @@ import CameraScreen from '../screens/CameraScreen';
 import PasswordScreen from '../screens/profile/PasswordScreen';
 import LogoutScreen from '../screens/profile/LogoutScreen';
 
+import MyNavigator from '../navigation/MyNavigator';
 
 
-//drawer navigatori qe i man screenat kryesore te appit masi tllogohet useri
-// const homeDrawerNavigator = createDrawerNavigator({
-//     Home :{
-//         screen : HomeScreen,
 
-//     },
-//     Camera :{
-//         screen:CameraScreen
-//     },
-//     Settings : {
-//        screen :SettingsScreen
-//     },  
-//     Profile :{
-//         screen: ProfileScreen
-//     }
- 
-// },
-// )
 
-//========================================================
-//Stack navigatori i Home-it
-const HomeStack = createStackNavigator({
-   
-    Home:{
-        screen: HomeScreen
-    },
-     Camera:{   
-        screen:CameraScreen, 
-    },
-    
-    
-})
 
-HomeStack.navigationOptions =({ navigation }) => {
-    let tabBarVisible = true;
-    if (navigation.state.index > 0) {
-      tabBarVisible = false;
-    }
   
-    return {
-      tabBarVisible,
-       tabBarLabel: 'Home',
-        tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={
-              Platform.OS === 'ios'
-                ? `ios-information-circle${focused ? '' : '-outline'}`
-                : 'md-information-circle'
-            }
-          />
-        ),
-       
-    };
-     
-};
-  
-// HomeStack.navigationOptions = {
-//     tabBarLabel: 'Home',
 
-//     tabBarIcon: ({ focused }) => (
-//       <TabBarIcon
-//         focused={focused}
-//         name={
-//           Platform.OS === 'ios'
-//             ? `ios-information-circle${focused ? '' : '-outline'}`
-//             : 'md-information-circle'
-//         }
-//       />
-//     ),
-//   };
 //-------------------------------------------------------------------------
-
-
-//stack navigator per profile screen 
-//-----------------------------------------------------------------------
-const ProfileStack = createStackNavigator({
-    Profile : {
-        screen : ProfileScreen
-    },
-    Password :{
-        screen : PasswordScreen
-    },
-    Logout :{
-        screen : LogoutScreen
-    }
-});
-
-ProfileStack.navigationOptions = {
-    tabBarLabel: 'Profile',
-    tabBarIcon: ({ focused }) => (
-      <TabBarIcon
-        focused={focused}
-        name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-      />
-    ),
-  };
-  //-----------------------------------------------------------------
- 
-//Setting stack navigatori 
-const SettingsStack = createStackNavigator({
-    Settings: {
-      screen:SettingsScreen
-    }
-  });
-
-  SettingsStack.navigationOptions = {
-    tabBarLabel: 'Settings',
-    tabBarIcon: ({ focused }) => (
-      <TabBarIcon
-        focused={focused}
-        name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-      />
-    ),
-  };
-
-
-// Tab navigatori Kryesor
-const homeTabNavigator = createBottomTabNavigator({
-    HomeStack,
-    ProfileStack,
-    SettingsStack
+//Stacku kryesor per home screen 
+const mainStackNavigator = createStackNavigator({
+   Tabs:MyNavigator,
+   Password:PasswordScreen,
+   Logout:LogoutScreen,
+   Camera:CameraScreen
 })
+
+
+
 
 
 //stackNav qe i man screena-t qe sherbejn per mu llogu useri
@@ -165,7 +59,7 @@ const registerStackNavigator = createStackNavigator({
 //qyky osht parent navigatori qe ka disa nvaigator brenda si child 
 const switchNavigator = createSwitchNavigator({
   AuthLoading : AuthLoadingScreen,
-  Home :homeTabNavigator,
+  Home :mainStackNavigator,
   Register : registerStackNavigator
 
   
