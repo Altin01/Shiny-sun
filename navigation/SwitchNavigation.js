@@ -23,6 +23,9 @@ import SigninScreen from '../screens/SigninScreen';
 import SignupScreen from '../screens/SignupScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import CameraScreen from '../screens/CameraScreen';
+import EditProfile from '../screens/profile/EditProfile';
+import CreditCard from  '../screens/profile/CreditCard';
+
 
 import PasswordScreen from '../screens/profile/PasswordScreen';
 import LogoutScreen from '../screens/profile/LogoutScreen';
@@ -41,7 +44,9 @@ const mainStackNavigator = createStackNavigator({
    Tabs:MyNavigator,
    Password:PasswordScreen,
    Logout:LogoutScreen,
-   Camera:CameraScreen
+   Camera:CameraScreen,
+   EditProfile:EditProfile,
+   CreditCard:CreditCard
 })
 
 
