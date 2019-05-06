@@ -73,7 +73,8 @@ const SettingsStack = createStackNavigator({
   
    
   ProfileStack.navigationOptions = {
-  
+    tabBarLabel: 'Profile',
+    
     tabBarIcon: ({ focused }) => (
       <TabBarIcon
         focused={focused}

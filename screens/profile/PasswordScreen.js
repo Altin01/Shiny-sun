@@ -65,9 +65,11 @@
                                 secureTextEntry
                             />
                                 
-                                {loading? <Loading />: <Errors  error={error} />}
+                                {loading? <Loading />: <Errors  error={error} /> }
                                         <TouchableOpacity style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
-                                               await changePassword({ 
+                                           
+                                           console.log(error);
+                                           let {data} =  await changePassword({ 
                                                                 variables:{
                                                                     password:this.state.oldPassword,
                                                                     newPassword:this.state.newPassword,
