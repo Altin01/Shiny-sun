@@ -1,17 +1,14 @@
 import React from 'react';
 
 import {
-  Image,
-  Platform,
-  ScrollView,
+
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
   Dimensions,
-  ActivityIndicator,
   CameraRoll,
-  AsyncStorage
+  TouchableOpacity
 } from 'react-native';
 
 import { WebBrowser,Camera,Permissions } from 'expo';
@@ -24,7 +21,8 @@ const { width: winWidth, height: winHeight } = Dimensions.get('window');
 export default class HomeScreen extends React.Component {
      static navigationOptions = {
         header: null,
-        tabBarVisible :false
+        tabBarVisible :false,
+  
       };
       
     constructor(props){
@@ -35,6 +33,7 @@ export default class HomeScreen extends React.Component {
             pictureUrl:'',
             t: true,
             camera_roll_permission:false,
+            takePhoto:false
           
           };
          this.camera;
@@ -47,9 +46,8 @@ export default class HomeScreen extends React.Component {
         const camera_roll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         const cameraPermission  = (camera.status === 'granted');
         const camera_roll_permission = (camera_roll === 'granted');
-        
-        console.log(cameraPermission);
-        this.setState({camera_roll_permission:true,cameraShow:true});
+      
+        this.setState({camera_roll_permission:true,cameraShow:true,takePhoto:true});
         this.setState({cameraPermission});
         
 
@@ -76,14 +74,19 @@ export default class HomeScreen extends React.Component {
    } 
 
    takePicture= async ()=>{
-    if(this.camera && this.state.camera_roll_permission){
+    this.setState({takePhoto:false})
+    if(this.camera && this.state.camera_roll_permission && this.state.takePhoto){
         let photo = await this.camera.takePictureAsync();
         CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
           alert("Your picture is saved in your gallery");
+          this.props.navigation.navigate('Home');
+       
         }).catch((err)=>{
           alert(err);
         })
      }
+
+    
     
    }
 
@@ -145,9 +148,9 @@ export default class HomeScreen extends React.Component {
                       />
                       }
                       <View style={styles.posht}>
-                           <TouchableWithoutFeedback style={styles.cameratouch} onPress={this.takePicture}>
+                           <TouchableOpacity disabled={!this.state.takePhoto} style={styles.cameratouch} onPress={this.takePicture}>
                              <Ionicons style={{marginBottom:22}} name="md-camera" color="white" size={60} />
-                           </TouchableWithoutFeedback>
+                           </TouchableOpacity>
                       </View>
             </View>)
 
