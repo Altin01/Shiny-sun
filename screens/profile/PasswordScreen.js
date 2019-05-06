@@ -35,7 +35,7 @@
  render(){
      return(
                 <View style={styles.container}>
-                     <Mutation mutation={EDIT_PASSWORD}>{(editPassword,{loading,data,error})=>(
+                     <Mutation mutation={EDIT_PASSWORD}>{(changePassword,{loading,data,error})=>(
                         <Fragment>
                             <RegisterInput
                             
@@ -67,18 +67,14 @@
                                 
                                 {loading? <Loading />: <Errors  error={error} />}
                                         <TouchableOpacity style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
-                                                           console.log(JSON.stringify(AsyncStorage.getItem('id')))
-                                                        
-                                                let {data} = await editPassword({ 
+                                               await changePassword({ 
                                                                 variables:{
-                                                                    id:AsyncStorage.getItem('id'),
                                                                     password:this.state.oldPassword,
                                                                     newPassword:this.state.newPassword,
                                                                     confirmPassword:this.state.confirmPassword   
                                                                 }
                                                             });
                                                             AsyncStorage.removeItem('@toka-dhe-dielli:token');
-                                                            AsyncStorage.removeItem('id');
                                                             this.props.navigation.navigate('Register'); 
                                                     }}>
                                                     <Text style={styles.buttontext}>

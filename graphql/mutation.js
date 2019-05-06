@@ -29,8 +29,8 @@ export const LOGIN = gql`
 `;
 
 export const EDIT_PASSWORD = gql`
-mutation editPassword($id:ID!,$password: String!,$newPassword: String!,$confirmPassword: String){
-  editPassword(id:$id,password:$password,newPassword:$newPassword,confirmPassword:$confirmPassword){
+mutation changePassword($password: String!,$newPassword: String!,$confirmPassword: String){
+  changePassword(password:$password,newPassword:$newPassword,confirmPassword:$confirmPassword){
     user{
       id
     }

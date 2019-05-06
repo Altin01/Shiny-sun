@@ -63,7 +63,6 @@ export default class SigninScreen  extends Component{
                                             if(payload){
 
                                                 await AsyncStorage.setItem('@toka-dhe-dielli:token',payload.token);
-                                                await AsyncStorage.setItem('id',data.signup.user.id);
                                                 this.props.navigation.navigate('Home');
 
                                             }
