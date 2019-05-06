@@ -29,6 +29,7 @@
         <Fragment>
 
                 <RegisterInput 
+                width={width}
                 placeholder="Edit name "
                 onChangeText={(name) => this.setState({name})}
                 />
