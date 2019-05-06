@@ -1,4 +1,4 @@
-        import React from 'react';
+        import React,{Component,Fragment} from 'react';
         import {View,StyleSheet,TouchableOpacity,Dimensions,Text}from 'react-native';
 
         import RegisterInput from '../../components/RegisterInput';
@@ -10,12 +10,12 @@
 
         let {height,width}=Dimensions.get('window')
 
-        export default class EditProfile extends React.Component{
+        export default class EditProfile extends Component{
             constructor(props) {
                 super(props);
 
                     this.state = {
-                    name=""
+                    name:"",
                 };
             }
 
@@ -47,7 +47,7 @@
 
           }}>
 
-          
+
             <Text style={styles.buttontext}>Change Name</Text>
             </TouchableOpacity>
             </Fragment> )}</Mutation>
