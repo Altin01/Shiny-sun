@@ -70,7 +70,7 @@
                                            
                                            console.log(error);
                                            let {data} =  await changePassword({ 
-                                                                variables:{
+                                                                  variables:{
                                                                     password:this.state.oldPassword,
                                                                     newPassword:this.state.newPassword,
                                                                     confirmPassword:this.state.confirmPassword   
