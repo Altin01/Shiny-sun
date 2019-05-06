@@ -30,7 +30,7 @@
 
                 <RegisterInput 
                 placeholder="Edit name "
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(name) => this.setState({name})}
                 />
 
 
