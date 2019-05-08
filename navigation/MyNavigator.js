@@ -21,23 +21,29 @@ const HomeStack = createStackNavigator({
     Home:{
         screen: HomeScreen
     }
-     
     
+    
+},
+{
+  navigationOptions:()=>({
+  header:"home",
+  headerBackground:'red'
+  })
 });
 
 HomeStack.navigationOptions = {
-    tabBarLabel: 'Home',
 
     tabBarIcon: ({ focused }) => (
       <TabBarIcon
         focused={focused}
         name={
           Platform.OS === 'ios'
-            ? `ios-information-circle${focused ? '' : '-outline'}`
-            : 'md-information-circle'
+            ? `ios-home${focused ? '' : '-outline'}`
+            : 'md-home'
         }
       />
     ),
+    
   };
 
 //Setting stack navigatori 
@@ -78,7 +84,7 @@ const SettingsStack = createStackNavigator({
     tabBarIcon: ({ focused }) => (
       <TabBarIcon
         focused={focused}
-        name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+        name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'}
       />
     ),
 

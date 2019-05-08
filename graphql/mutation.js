@@ -33,6 +33,7 @@ mutation changePassword($password: String!,$newPassword: String!,$confirmPasswor
   changePassword(password:$password,newPassword:$newPassword,confirmPassword:$confirmPassword){
       id
     
+    
   }
 } `
 

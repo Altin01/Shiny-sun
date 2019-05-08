@@ -8,7 +8,8 @@ import {
   View,
   Dimensions,
   CameraRoll,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from 'react-native';
 
 import { WebBrowser,Camera,Permissions } from 'expo';
@@ -76,7 +77,7 @@ export default class HomeScreen extends React.Component {
    takePicture= async ()=>{
     this.setState({takePhoto:false})
     if(this.camera && this.state.camera_roll_permission && this.state.takePhoto){
-        let photo = await this.camera.takePictureAsync();
+        let photo = await this.camera.takePictureAsync({skipProcessing:true});
         CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
           alert("Your picture is saved in your gallery");
           this.props.navigation.navigate('Home');
@@ -109,19 +110,21 @@ export default class HomeScreen extends React.Component {
       return( 
         <View style={styles.container}>
                       <View style={styles.nalt}>
-                          <TouchableWithoutFeedback style={styles.menuView} onPress={()=>this.props.navigation.toggleDrawer()}>
-                              <View style={styles.menuView}>
-                                <Ionicons style={{top:'2%'}} name="md-menu" size={34} color="white" />
-                            </View>
-                          </TouchableWithoutFeedback>
+                       
                           <TouchableWithoutFeedback style={styles.flip} onPress={()=> this.setState({
                                type: this.state.type === Camera.Constants.Type.back
                                 ? Camera.Constants.Type.front
                                 : Camera.Constants.Type.back,
                             })}>
                                <View style={styles.menuView}>
-                                <Ionicons style={{top:'2%'}} name="md-sync" size={34} color="white"   />
+                                <Ionicons style={{top:'2%'}} name={Platform.OS === 'ios'?'ios-sync':'md-sync'} size={34} color="white"   />
                               </View>
+                          </TouchableWithoutFeedback>
+
+                          <TouchableWithoutFeedback style={styles.blank}>
+                             <View style={styles.blank}>
+
+                             </View>
                           </TouchableWithoutFeedback>
                           <TouchableWithoutFeedback style={styles.blank}>
                              <View style={styles.blank}>
@@ -135,7 +138,7 @@ export default class HomeScreen extends React.Component {
                           </TouchableWithoutFeedback>
                           <TouchableWithoutFeedback style={styles.home_icon} onPress={()=>this.props.navigation.navigate('Home')}>
                              <View style={styles.home_view}>
-                               <Ionicons style={{top:'2%'}} name="md-home" size={34} color="white" />
+                               <Ionicons style={{top:'2%'}} name={Platform.OS === 'ios'?'ios-home' :'md-home'} size={34} color="white" />
                              </View>
                           </TouchableWithoutFeedback>
                           
@@ -149,7 +152,7 @@ export default class HomeScreen extends React.Component {
                       }
                       <View style={styles.posht}>
                            <TouchableOpacity disabled={!this.state.takePhoto} style={styles.cameratouch} onPress={this.takePicture}>
-                             <Ionicons style={{marginBottom:22}} name="md-camera" color="white" size={60} />
+                             <Ionicons style={{marginBottom:22}} name={Platform.OS ==='ios'?'ios-camera' :'md-camera'} color="white" size={60} />
                            </TouchableOpacity>
                       </View>
             </View>)

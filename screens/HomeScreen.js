@@ -4,7 +4,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
- 
+ Platform
 } from 'react-native';
 
 
@@ -37,7 +37,7 @@ export default class HomeScreen extends React.Component {
             
            <View style={styles.main}>
               <TouchableWithoutFeedback style={{height:'auto',width:'auto'}} onPress={()=>this.props.navigation.navigate('Camera')}>
-                <Ionicons size={50} name="md-camera" />
+                <Ionicons size={50} name={Platform.OS === 'ios'? 'ios-camera':'md-camera' }/>
               </TouchableWithoutFeedback>
               <Text style={{color:'black'}}>
                 Click here to sent a photo 
