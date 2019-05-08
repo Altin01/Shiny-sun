@@ -23,14 +23,17 @@ export default class ProfileScreen extends Component {
 
                   </View>
                </View>
-               <View style={styles.scroll_view}>
+               <ScrollView style={styles.scroll_view}>
+               
                     <ProfileButton width={width} name="Edit Profile"   onPress={()=>this.props.navigation.navigate('EditProfile')}/>
                     <ProfileButton width={width} name="Edit Password " onPress={()=>this.props.navigation.navigate('Password')} />
                     <ProfileButton width={width} name="Credit Card " onPress={()=>this.props.navigation.navigate('CreditCard')} />
+                    <ProfileButton width={width} name="Push Notifications " onPress={()=>this.props.navigation.navigate('PushNotifications')}  />
+
 
                     <ProfileButton width={width} name="Logout " onPress={()=>this.props.navigation.navigate('Logout')} />
 
-               </View>
+               </ScrollView>
             </View>
         )
     }
