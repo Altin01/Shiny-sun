@@ -52,33 +52,33 @@ export default class HomeScreen extends React.Component {
         this.setState({cameraPermission});
         
 
-        const didFocusSubscription = this.props.navigation.addListener(
-          'didFocus',
-          payload => {
-            this.setState({
-              t: true
-            });
-            console.debug('didBlur', payload);
-          }
-        );
+        // const didFocusSubscription = this.props.navigation.addListener(
+        //   'didFocus',
+        //   payload => {
+        //     this.setState({
+        //       t: true
+        //     });
+        //     console.debug('didBlur', payload);
+        //   }
+        // );
 
-        const didBlurSubscription = this.props.navigation.addListener(
-          'didBlur',
-          payload => {
-            this.setState({
-              t: false
-            });
-            console.debug('didBlur', payload);
-          }
-        );
+        // const didBlurSubscription = this.props.navigation.addListener(
+        //   'didBlur',
+        //   payload => {
+        //     this.setState({
+        //       t: false
+        //     });
+        //     console.debug('didBlur', payload);
+        //   }
+        // );
       
    } 
 
    takePicture= async ()=>{
     this.setState({takePhoto:false})
     if(this.camera && this.state.camera_roll_permission && this.state.takePhoto){
-        let photo = await this.camera.takePictureAsync({skipProcessing:true});
-        CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
+          let photo = await this.camera.takePictureAsync({skipProcessing:true});
+          CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
           alert("Your picture is saved in your gallery");
           this.props.navigation.navigate('Home');
        
