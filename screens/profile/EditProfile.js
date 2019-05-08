@@ -59,11 +59,11 @@ export default class EditProfile extends Component{
         
         const styles = StyleSheet.create({
             container : {
-            backgroundColor:'#fff',
-            justifyContent:'center',
-            alignItems:'center',
-            paddingLeft:20,
-            paddingRight:20
+                backgroundColor:'#fff',
+                justifyContent:'center',
+                alignItems:'center',
+                paddingLeft:20,
+                paddingRight:20
             },
             buttoncontainer:{
                 height:50,

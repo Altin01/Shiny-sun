@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     ScrollView,
-    Dimensions
+    Dimensions,
+    Image
 
 } from 'react-native';
 import ProfileButton from '../../components/ProfileButton';
@@ -20,7 +21,10 @@ export default class ProfileScreen extends Component {
             <View style={styles.container}>
                <View style={styles.foto}>
                   <View style={styles.rreth}>
-
+                    <Image 
+                    source={require('../../assets/images/FakeDP.jpeg')}
+                     style={styles.rreth}
+                    />
                   </View>
                </View>
                <ScrollView style={styles.scroll_view}>
@@ -42,27 +46,27 @@ export default class ProfileScreen extends Component {
 const styles = StyleSheet.create({
     container :{
         flex:1,
-        justifyContent:"center",
+        justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'#fff'
+        backgroundColor:'#fff',
     },
     foto :{
-        height:'20%',
+        height:'15%',
         width:'100%',
         flex:1,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
     },
     rreth :{
         height:150,
         width:150,
         borderRadius:100,
         borderWidth:1,
-        borderColor:'gray'
+        borderColor:'gray',
 
     },
     scroll_view:{
         flex:1,
-        justifyContent:'center',
+        padding:5,
     }
 })
