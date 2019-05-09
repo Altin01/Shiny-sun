@@ -44,7 +44,7 @@ export default class EditProfile extends Component{
                                     name:this.state.name,
                             
                                     }});
-                             this.props.navigation.navigate('Home')}}>
+                             this.props.navigation.navigate('Profile')}}>
                          <Text style={styles.buttontext}>Change Name</Text>
                       </TouchableOpacity>
                     </Fragment> )}</Mutation>

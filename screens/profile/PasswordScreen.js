@@ -76,8 +76,8 @@
                                                                     confirmPassword:this.state.confirmPassword   
                                                                 }
                                                             });
-                                                            AsyncStorage.removeItem('@toka-dhe-dielli:token');
-                                                            this.props.navigation.navigate('Register'); 
+                                                           
+                                                            this.props.navigation.navigate('Profile'); 
                                                     }}>
                                                     <Text style={styles.buttontext}>
                                                         Edit
