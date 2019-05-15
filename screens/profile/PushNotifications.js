@@ -7,7 +7,7 @@ export default class PushNotifications extends Component{
         super(props)
         this.state={
             number:"",
-            
+            minutes:"",
         };
     }
 render(){
