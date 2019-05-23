@@ -54,9 +54,11 @@ export default class SigninScreen  extends Component{
                                 { loading ? <Loading /> :<Errors error={error} />} 
                                 <View style={styles.sun}>
 
-                                <Button color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
+                                <Button  name="Login" color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
                                         let { data }= await login({
+                                            
                                             variables:{
+                                            
                                                 email:this.state.email,
                                                 password:this.state.password
                                                 }
@@ -71,10 +73,7 @@ export default class SigninScreen  extends Component{
 
                                             }
                                 }}>
-                                         <Text style={{color:'#FEBE28',fontSize:38}}>
-
-                                          Login
-                                        </Text>
+                                  
                                 </Button>
                                 </View>
 

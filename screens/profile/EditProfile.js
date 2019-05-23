@@ -40,7 +40,7 @@ export default class EditProfile extends Component{
                       {loading? <Loading />: <Errors  error={error} /> }
                       <View style={styles.sun}>
 
-                      <Button  color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
+                      <Button name="Edit Name" color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
                                                     
                           await editAccount({ 
                                 variables:{
@@ -48,7 +48,6 @@ export default class EditProfile extends Component{
                             
                                     }});
                              this.props.navigation.navigate('Profile')}}>
-                         <Text>Change Name</Text>
                       </Button>
                       </View>
                     </Fragment> )}</Mutation>

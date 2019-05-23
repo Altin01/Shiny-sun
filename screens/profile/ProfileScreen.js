@@ -34,7 +34,7 @@ export default class ProfileScreen extends Component {
                     <ProfileButton width={width} name="Push Notifications " onPress={()=>this.props.navigation.navigate('PushNotifications')}  />
 
 
-                    <ProfileButton width={width} name="Logout " onPress={()=>this.props.navigation.navigate('Logout')} />
+                    <ProfileButton  width={width} name="Logout " onPress={()=>this.props.navigation.navigate('Logout')} />
 
                </ScrollView>
             </View>

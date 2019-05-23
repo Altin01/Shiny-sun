@@ -69,7 +69,7 @@
                                 {loading? <Loading />: <Errors  error={error} /> }
                                 <View style={styles.sun}>
 
-                                        <Button  color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
+                                        <Button name="Edit" color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
                                            
                                            console.log(error);
                                            let {data} =  await changePassword({ 
@@ -82,9 +82,7 @@
                                                            
                                                             this.props.navigation.navigate('Profile'); 
                                                     }}>
-                                                    <Text style={styles.buttontext}>
-                                                        Edit
-                                                    </Text>
+                                                   
                                             </Button>
                                             </View>
                                             

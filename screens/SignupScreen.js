@@ -81,7 +81,7 @@ export default class SignupScreen extends Component{
                                 
                                     {loading? <Loading />: <Errors  error={error} />}
                                     <View style={styles.sun}>
-                                    <Button color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
+                                    <Button name="SingUp"color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83}onPress={async()=>{
                                                     
                                                     let { data }= await signup({
                                                             variables:{
@@ -96,9 +96,7 @@ export default class SignupScreen extends Component{
                                                         await AsyncStorage.setItem('id',data.signup.user.id);
                                                         this.props.navigation.navigate('Home'); 
                                                 }}>
-                                         <Text style={{color:'#FEBE28',fontSize:38}}>
-                                                    SingUp
-                                                </Text>
+                                      
                                         </Button>
                                         
                                     </View>
