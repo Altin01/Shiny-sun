@@ -15,7 +15,7 @@ class CalendarScreen extends React.Component {
          days:[],
          date:moment().format('YYYY-MM-DD'),
          newobj:{},
-         sel:true
+         sel:false
 
      }
    
@@ -31,23 +31,17 @@ class CalendarScreen extends React.Component {
                  markedDates={
                    this.state.newobj
                   }
-                 onDayPress={ (day)=>{
-                console.log(this.state.days.length);
-                    if(this.state.days.length < 1){
-                        this.setState({days:[day]})
-                    }else {
-                        var arr =  this.state.days.map((val)=>{
-                          if(day.dateString !== val.dateString){
-                              return val;
-                          }
-                        });
+                 onDayPress={   (day)=>{
+                    day = {
+                        ...day,
+                        selected:!this.state.sel
                     }
-                   console.log(arr);
-                    this.setState({days:arr})
+                   
+                    this.setState({days :[...days,day]});
                     this.state.days.forEach((day)=>{
                         this.setState({
                             newobj:{...this.state.newobj,
-                             [day.dateString] :{ selected:true, selectedColor:'red'}
+                             [day.dateString] :{ selected:day.sel, selectedColor:'red'}
                            }
                         });
                    })
