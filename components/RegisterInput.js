@@ -10,7 +10,7 @@
         export default function RegisterInput (props){
             return(
             
-                    <TextInput  
+                    <TextInput   
                          
                         style={[styles.input,{width:props.width},{marginBottom:props.bottom}]}
                         value={props.value}
@@ -29,7 +29,7 @@
                 fontSize:20,
                 color:'#34495e',
                 borderBottomWidth:1,
-                borderBottomColor:'green',
+                borderBottomColor:'#FEBE28',
                 
             },
         });

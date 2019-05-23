@@ -9,7 +9,6 @@ import {
 
 } from 'react-native';
 import ProfileButton from '../../components/ProfileButton';
-
 let {height,width} = Dimensions.get('window');
 
 export default class ProfileScreen extends Component { 
@@ -35,7 +34,7 @@ export default class ProfileScreen extends Component {
                     <ProfileButton width={width} name="Push Notifications " onPress={()=>this.props.navigation.navigate('PushNotifications')}  />
 
 
-                    <ProfileButton width={width} name="Logout " onPress={()=>this.props.navigation.navigate('Logout')} />
+                    <ProfileButton  width={width} name="Logout " onPress={()=>this.props.navigation.navigate('Logout')} />
 
                </ScrollView>
             </View>
@@ -68,5 +67,6 @@ const styles = StyleSheet.create({
     scroll_view:{
         flex:1,
         padding:5,
+       
     }
 })

@@ -16,7 +16,7 @@ export default class LogoutScreen extends Component {
             <View style={styles.container}>
                
 
-                  <ProfileButton
+                  <ProfileButton 
                    width={width}
                    name="Log out"  onPress={()=>{
                    AsyncStorage.removeItem('@toka-dhe-dielli:token');
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         justifyContent :'center',
-        alignItems:'center'
+        alignItems:'center',
 
-    }
+    },
+  
 })

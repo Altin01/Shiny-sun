@@ -14,6 +14,7 @@ import {SIGNUP} from '../graphql/mutation';
 
 import Errors from '../components/Errors';
 import Loading from '../components/Loading';
+import Button from '../components/Button';
 let {height,width} = Dimensions.get('window');
 
 export default class SignupScreen extends Component{
@@ -79,7 +80,8 @@ export default class SignupScreen extends Component{
                                     />
                                 
                                     {loading? <Loading />: <Errors  error={error} />}
-                                    <TouchableOpacity style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
+                                    <View style={styles.sun}>
+                                    <Button name="SingUp"color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83}onPress={async()=>{
                                                     
                                                     let { data }= await signup({
                                                             variables:{
@@ -94,12 +96,10 @@ export default class SignupScreen extends Component{
                                                         await AsyncStorage.setItem('id',data.signup.user.id);
                                                         this.props.navigation.navigate('Home'); 
                                                 }}>
-                                                <Text style={styles.buttontext}>
-                                                    SingUp
-                                                </Text>
-                                        </TouchableOpacity>
+                                      
+                                        </Button>
                                         
-                                    
+                                    </View>
                                   
                             </Fragment>
                             )}
@@ -119,29 +119,13 @@ export default class SignupScreen extends Component{
                 alignItems:'center'
         
             },
-         
-            text:{
-                marginBottom:40,
-                textAlign:'center',
-                color:'black',
-                fontSize:30,
-                
-            },
-         
-            buttoncontainer:{
-                height:50,
-                borderRadius:50,
-                backgroundColor:'#1abc9c',
+      
+            sun:{
+                height:'30%',
+                width:'100%',
                 justifyContent:'center',
-                alignItems:'center'
-              
-            },
-            buttontext:{
-        
-                textAlign:'center',
-                color:'#ecf0f1',
-                fontSize:20
-            
+                alignItems:'center',
+                text:'black'
             }
         });
         

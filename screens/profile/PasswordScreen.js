@@ -12,7 +12,8 @@
 
                 import {Mutation} from 'react-apollo';
                 import {EDIT_PASSWORD} from '../../graphql/mutation';
-                
+                import Button from '../../components/Button';
+
                 import Errors from '../../components/Errors';
                 import Loading from '../../components/Loading';
 
@@ -66,7 +67,9 @@
                             />
                                 
                                 {loading? <Loading />: <Errors  error={error} /> }
-                                        <TouchableOpacity style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
+                                <View style={styles.sun}>
+
+                                        <Button name="Edit" color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
                                            
                                            console.log(error);
                                            let {data} =  await changePassword({ 
@@ -79,10 +82,9 @@
                                                            
                                                             this.props.navigation.navigate('Profile'); 
                                                     }}>
-                                                    <Text style={styles.buttontext}>
-                                                        Edit
-                                                    </Text>
-                                            </TouchableOpacity>
+                                                   
+                                            </Button>
+                                            </View>
                                             
              </Fragment> )}</Mutation>
                 </View>
@@ -100,20 +102,12 @@
                     paddingLeft:20,
                     paddingRight:20
                     },
-                    buttoncontainer:{
-                        height:50,
-                        borderRadius:50,
-                        backgroundColor:'#1abc9c',
+                    sun:{
+                        height:'30%',
+                        width:'100%',
                         justifyContent:'center',
-                        alignItems:'center'
-                      
-                    },
-                    buttontext:{
-                
-                        textAlign:'center',
-                        color:'#ecf0f1',
-                        fontSize:20
-                    
+                        alignItems:'center',
+                        text:'black'
                     }
 
 
