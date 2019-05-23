@@ -10,18 +10,16 @@ import TabBarIcon from '../components/TabBarIcon';
 
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import SettingsScreen from '../screens/settings/SettingsScreen';
 
 
 
 
 
 const HomeStack = createStackNavigator({
-   
     Home:{
         screen: HomeScreen
     }
-    
     
 },
 {

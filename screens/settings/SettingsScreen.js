@@ -1,7 +1,8 @@
 import React from 'react';
-import {View,Text,StyleSheet } from 'react-native'
+import {View,Text,StyleSheet,Dimensions } from 'react-native';
+import ProfileButton from '../../components/ProfileButton';
 
-
+let {height,width} = Dimensions.get('window');
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     title: 'Settings',
@@ -11,10 +12,10 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-          Settings Screen
-        </Text>
-
+       
+      <ProfileButton width={width*0.83}  name="Calendar" onPress={()=>this.props.navigation.navigate('Calendar')}/>
+    
+  
       </View>
     )
   }
