@@ -9,7 +9,6 @@ import {
 
 } from 'react-native';
 import ProfileButton from '../../components/ProfileButton';
-
 let {height,width} = Dimensions.get('window');
 
 export default class ProfileScreen extends Component { 
@@ -68,5 +67,6 @@ const styles = StyleSheet.create({
     scroll_view:{
         flex:1,
         padding:5,
+       
     }
 })

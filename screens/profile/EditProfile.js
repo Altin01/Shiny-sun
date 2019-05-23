@@ -3,7 +3,8 @@ import {View,StyleSheet,TouchableOpacity,Dimensions,Text}from 'react-native';
 
 import RegisterInput from '../../components/RegisterInput';
 import {Mutation, Query} from 'react-apollo';
- 
+import Button from '../../components/Button';
+
 import GET_USER from '../../graphql/queries';
 import Errors from '../../components/Errors';
 import Loading from '../../components/Loading';
@@ -37,7 +38,9 @@ export default class EditProfile extends Component{
                         />
                             
                       {loading? <Loading />: <Errors  error={error} /> }
-                      <TouchableOpacity  style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
+                      <View style={styles.sun}>
+
+                      <Button  color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
                                                     
                           await editAccount({ 
                                 variables:{
@@ -45,8 +48,9 @@ export default class EditProfile extends Component{
                             
                                     }});
                              this.props.navigation.navigate('Profile')}}>
-                         <Text style={styles.buttontext}>Change Name</Text>
-                      </TouchableOpacity>
+                         <Text>Change Name</Text>
+                      </Button>
+                      </View>
                     </Fragment> )}</Mutation>
                
 
@@ -65,22 +69,12 @@ export default class EditProfile extends Component{
                 paddingLeft:20,
                 paddingRight:20
             },
-            buttoncontainer:{
-                height:50,
-                borderRadius:50,
-                backgroundColor:'#1abc9c',
-                justifyContent:'center',
-                alignItems:'center',
-                
-              
-            },
-            buttontext:{
-        
-                textAlign:'center',
-                color:'#ecf0f1',
-                fontSize:20
-            
-            }
-
+            sun:{
+              height:'30%',
+              width:'100%',
+              justifyContent:'center',
+              alignItems:'center',
+              text:'black'
+          }
 
         })

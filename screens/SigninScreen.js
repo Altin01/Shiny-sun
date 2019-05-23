@@ -14,6 +14,8 @@ import { LOGIN } from '../graphql/mutation';
 import Errors from '../components/Errors';
 import Loading from '../components/Loading';
 import RegisterInput from '../components/RegisterInput';
+import Button from '../components/Button';
+
 
 let {height,width} = Dimensions.get('window');
 
@@ -27,7 +29,8 @@ export default class SigninScreen  extends Component{
     render(){
         return(
           <View style={styles.container}>
-                
+               
+
                     <Mutation mutation={LOGIN}>{(login,{loading,data,error})=>(
                         <Fragment>
                                 <RegisterInput 
@@ -49,8 +52,9 @@ export default class SigninScreen  extends Component{
                                 />
 
                                 { loading ? <Loading /> :<Errors error={error} />} 
-                                        
-                                <TouchableOpacity style={[styles.buttoncontainer,{width:width}]} onPress={async()=>{
+                                <View style={styles.sun}>
+
+                                <Button color="black" color1="rgb(255,110,0)" color2="#FEBE28" style={{marginBottom:30}} width={width*0.83} onPress={async()=>{
                                         let { data }= await login({
                                             variables:{
                                                 email:this.state.email,
@@ -67,16 +71,18 @@ export default class SigninScreen  extends Component{
 
                                             }
                                 }}>
-                                        <Text style={styles.buttontext}>
-                                            Login
+                                         <Text style={{color:'#FEBE28',fontSize:38}}>
+
+                                          Login
                                         </Text>
-                                </TouchableOpacity>
-                            
+                                </Button>
+                                </View>
+
+
                          </Fragment>
                     )}</Mutation>
 
-                  
-           
+                 
         </View>);
     }
 }
@@ -91,18 +97,12 @@ const styles = StyleSheet.create({
         
     },
     
-    buttoncontainer:{
-        height:50,
-        borderRadius:50,
-        backgroundColor:'#1abc9c',
-        justifyContent:'center'
-      
-    },
-    buttontext:{
 
-        textAlign:'center',
-        color:'#ecf0f1',
-        fontSize:20
-    
+    sun:{
+        height:'30%',
+        width:'100%',
+        justifyContent:'center',
+        alignItems:'center',
+        text:'black'
     }
 });
