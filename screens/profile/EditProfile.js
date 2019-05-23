@@ -73,7 +73,7 @@ export default class EditProfile extends Component{
               width:'100%',
               justifyContent:'center',
               alignItems:'center',
-              text:'black'
+      
           }
 
         })

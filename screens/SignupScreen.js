@@ -124,8 +124,7 @@ export default class SignupScreen extends Component{
                 height:'30%',
                 width:'100%',
                 justifyContent:'center',
-                alignItems:'center',
-                text:'black'
+                alignItems:'center'
             }
         });
         

@@ -102,6 +102,5 @@ const styles = StyleSheet.create({
         width:'100%',
         justifyContent:'center',
         alignItems:'center',
-        text:'black'
     }
 });
