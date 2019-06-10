@@ -49,6 +49,19 @@ const SettingsStack = createStackNavigator({
     Settings: {
       screen:SettingsScreen
     }
+  },{
+    defaultNavigationOptions: {
+      headerStyle: {
+          backgroundColor: '#A9A9A9',
+          elevation: 0,
+          shadowOpacity: 0
+      },
+      headerTintColor: '#333333',
+      headerTitleStyle: {
+          fontWeight: 'bold',
+          color: '#ffffff'
+      }
+  }
   });
    //qitu e rre
   SettingsStack.navigationOptions = {
@@ -95,6 +108,16 @@ const homeTabNavigator = createBottomTabNavigator({
     SettingsStack,
 
 
-})
+},{
+  navigationOptions:{
+    
+    header:null
+  }
+});
+
+homeTabNavigator.navigationOptions = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
 
 export default createAppContainer(homeTabNavigator);

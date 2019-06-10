@@ -47,7 +47,11 @@ const mainStackNavigator = createStackNavigator({
    EditProfile:EditProfile,
    CreditCard:CreditCard,
    PushNotifications:PushNotifications,
-  
+   
+},{
+  defaultNavigationOptions:{
+     header:null
+  }
 })
 
 

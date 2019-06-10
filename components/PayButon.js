@@ -12,7 +12,7 @@ export default class PayButton extends Component{
        return(
      <View>
       <TouchableOpacity style={[style.container,this.props.style1]} onPress={this.props.onPress} >
-          <Text style={style.txt}>
+          <Text style={[style.txt,{color:this.props.color}]}>
               {this.props.name}
           </Text>
 
@@ -32,6 +32,6 @@ const style = StyleSheet.create({
     },
     txt:{
         fontSize:15,
-        color:'black'
+     
     }
 })
