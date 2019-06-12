@@ -13,12 +13,9 @@ export default class SettingsScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      first:'#D3D3D3',
-      second:'#D3D3D3',
-      third : '#D3D3D3',
-      color1:'black',
-      color2:'black',
-      color3:'black', 
+      pay1:false,
+      pay5:false,
+      pay10:false,
       monday:true,
       tuesday:true,
       wensday:true,
@@ -26,10 +23,7 @@ export default class SettingsScreen extends React.Component {
       friday:true,
       saturday:true,
       sunday:true,
-
-      
-
-
+      arrayweek:[]
     }
   }
   render() {
@@ -44,50 +38,41 @@ export default class SettingsScreen extends React.Component {
          <View style={styles.butonat}>
            
               <PayButton 
-                  color={this.state.color1} 
-                  style1={{backgroundColor:this.state.first,borderColor:this.state.first,borderWidth:1,marginRight:40}}
+                  color={this.state.pay1?'white':'black'} 
+                  style1={{backgroundColor:this.state.pay1?'#8B0000':'#D3D3D3',borderColor:this.state.pay1?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
                   backcolor={this.state.first} 
                   onPress={ async ()=>{
                   await this.setState({
-                      first:'#8B0000',
-                      second:'#D3D3D3',
-                      third : '#D3D3D3',
-                      color1:'white',
-                      color2:'black',
-                      color3:'black'
-
+                     pay1:!this.state.pay1,
+                     pay5:false,
+                     pay10:false
                     })
                   }} 
                   name="1$" 
               />
               <PayButton 
-                  color={this.state.color2}
-                  style1={{backgroundColor:this.state.second,borderColor:this.state.second,borderWidth:1,marginRight:40}}
+                  color={this.state.pay5?'white':'black'}
+                  style1={{backgroundColor:this.state.pay5?'#8B0000':'#D3D3D3',borderColor:this.state.pay5?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
                   backcolor={this.state.second}
                   onPress={async ()=>{
                    await this.setState({
-                      first:'#D3D3D3',
-                      second:'#8B0000',
-                      third : '#D3D3D3',
-                      color1:'black',
-                      color2:'white',
-                      color3:'black'
+                      pay1:false,
+                      pay5:!this.state.pay5,
+                      pay10:false
+
                     })
                   }}
                   name="5$"
               />
               <PayButton 
-                  color={this.state.color3}
-                  style1={{backgroundColor:this.state.third,borderColor:this.state.third,borderWidth:1,marginRight:15}}
+                  color={this.state.pay10?'white':'black'}
+                  style1={{backgroundColor:this.state.pay10?'#8B0000':'#D3D3D3',borderColor:this.state.pay10?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
                    backcolor={this.state.third}
                     onPress={ async ()=>{
                      await this.setState({
-                        first:'#D3D3D3',
-                        second:'#D3D3D3',
-                        third : '#8B0000',
-                        color1:'black',
-                      color2:'black',
-                      color3:'white'
+                       pay1:false,
+                       pay5:false,
+                       pay10:!this.state.pay10,
                       })
                   }}
                   name="10$"
@@ -111,6 +96,14 @@ export default class SettingsScreen extends React.Component {
                         await this.setState({
                           monday:!this.state.monday,
                         })
+                         await this.setState({
+                            arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
+                          });
+                        
+                        console.log(this.state.arrayweek);
+
+
+                        
                       }}
                       style1={{width:width*0.22,backgroundColor:this.state.monday?'#8B0000':'#D3D3D3',borderColor:this.state.monday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
                       color={this.state.monday?'white':'black'}
@@ -124,8 +117,14 @@ export default class SettingsScreen extends React.Component {
                         await this.setState({
                           tuesday:!this.state.tuesday,
                         })
+                         await this.setState({
+                            arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
+                          });
+                      
+                        console.log(this.state.arrayweek);
+
                       }}
-                        color={this.state.monday?'white':'black'}
+                        color={this.state.tuesday?'white':'black'}
                   /> 
 
                 {/* dita e MERKURE*/}
@@ -136,8 +135,14 @@ export default class SettingsScreen extends React.Component {
                       await this.setState({
                         wensday:!this.state.wensday,
                       })
+                      await  this.setState({
+                          arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
+                        });
+                     
+                      console.log(this.state.arrayweek);
+
                     }}
-                      color={this.state.monday?'white':'black'}
+                      color={this.state.wensday?'white':'black'}
                   /> 
 
                 {/* dita e ENJTE*/}
@@ -148,8 +153,14 @@ export default class SettingsScreen extends React.Component {
                       await this.setState({
                           thursday:!this.state.thursday,
                         })
+                         await this.setState({
+                            arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
+                          });
+                        
+                        console.log(this.state.arrayweek);
+
                       }}
-                        color={this.state.monday?'white':'black'}
+                        color={this.state.thursday?'white':'black'}
                   /> 
               </View>
               <View style={styles.ditet_posht}>
@@ -161,8 +172,14 @@ export default class SettingsScreen extends React.Component {
                          await this.setState({
                               friday:!this.state.friday,
                               })
+                               await this.setState({
+                                  arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
+                                });
+                              
+                            console.log(this.state.arrayweek);
+
                           }}
-                            color={this.state.monday?'white':'black'}
+                            color={this.state.friday?'white':'black'}
                       /> 
 
                     {/* dita e SHTUNE*/}
@@ -173,8 +190,13 @@ export default class SettingsScreen extends React.Component {
                             await this.setState({
                               saturday:!this.state.saturday,   
                             })
+                            await  this.setState({
+                                arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
+                              });
+                           
+                            console.log(this.state.arrayweek);
                           }}
-                            color={this.state.monday?'white':'black'}
+                            color={this.state.saturday?'white':'black'}
                       /> 
 
                     {/* dita e DILLE*/}
@@ -185,8 +207,13 @@ export default class SettingsScreen extends React.Component {
                             await this.setState({
                               sunday:!this.state.sunday,
                               })
+                               await this.setState({
+                                  arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
+                                })
+                            console.log(this.state.arrayweek);
+                              
                           }}
-                            color={this.state.monday?'white':'black'}
+                            color={this.state.sunday?'white':'black'}
                       /> 
                </View>
          </View>

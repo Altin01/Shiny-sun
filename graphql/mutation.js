@@ -45,3 +45,14 @@ export const EDIT_ACCOUNT = gql `
     }
   }
   `
+
+export const SETPUNISHMENT = gql`
+ mutation SetPunishment($ToBePunished:Boolean!,$Date_:String!,$price:Int!){
+   SetPunishment(ToBePunished:$ToBePunished,Date_:$Date_,price:$price){
+     id,
+     ToBePunished,
+     Date_,
+     price
+   }
+ }
+`
