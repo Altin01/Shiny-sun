@@ -2,7 +2,8 @@ import React ,{Component} from 'react';
 import {
     TouchableOpacity,
     Text,
-    StyleSheet
+    StyleSheet,
+    ActivityIndicator
 } from 'react-native';
 
 export default class ProfileButton extends Component {
@@ -10,9 +11,13 @@ export default class ProfileButton extends Component {
         return(
 
             <TouchableOpacity style={[styles.container,{width:this.props.width}]} onPress={this.props.onPress}>
+               {this.props.loading?
+               <ActivityIndicator/>:
                 <Text style={styles.txt}>
                   {this.props.name}
                 </Text>
+               }
+               
             </TouchableOpacity>
         );
     }

@@ -31,7 +31,7 @@ export default class SigninScreen  extends Component{
           <View style={styles.container}>
                
 
-                    <Mutation mutation={LOGIN}>{(login,{loading,data,error})=>(
+               <Mutation mutation={LOGIN}>{(login,{loading,data,error})=>(
                         <Fragment>
                                 <RegisterInput 
                                         bottom={30}
