@@ -18,23 +18,16 @@ export default class ProfileScreen extends Component {
     render(){
         return(
             <View style={styles.container}>
-               <View style={styles.foto}>
-                  <View style={styles.rreth}>
-                    <Image 
-                    source={require('../../assets/images/FakeDP.jpeg')}
-                     style={styles.rreth}
-                    />
-                  </View>
-               </View>
                <ScrollView style={styles.scroll_view}>
                
-                    <ProfileButton width={width} name="Edit Profile"   onPress={()=>this.props.navigation.navigate('EditProfile')}/>
-                    <ProfileButton width={width} name="Edit Password " onPress={()=>this.props.navigation.navigate('Password')} />
-                    <ProfileButton width={width} name="Credit Card " onPress={()=>this.props.navigation.navigate('CreditCard')} />
-                    <ProfileButton width={width} name="Push Notifications " onPress={()=>this.props.navigation.navigate('PushNotifications')}  />
+                    <ProfileButton width={width*0.9} name="Edit Profile"  style={{marginTop:20,marginBottom:20}} onPress={()=>this.props.navigation.navigate('EditProfile')}/>
+                    <ProfileButton width={width*0.9} name="Edit Password "style={{marginBottom:20}} onPress={()=>this.props.navigation.navigate('Password')} />
+                   
+                    <ProfileButton width={width*0.9} name="Credit Card " onPress={()=>this.props.navigation.navigate('CreditCard')} />
+                    <ProfileButton width={width*0.9} name="Push Notifications " onPress={()=>this.props.navigation.navigate('PushNotifications')}  />
 
 
-                    <ProfileButton  width={width} name="Logout " onPress={()=>this.props.navigation.navigate('Logout')} />
+                    <ProfileButton  width={width*0.9} name="Logout " onPress={()=>this.props.navigation.navigate('Logout')} />
 
                </ScrollView>
             </View>
@@ -48,9 +41,10 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:'#fff',
+        paddingTop:30,
     },
     foto :{
-        height:'15%',
+        height:20,
         width:'100%',
         flex:1,
         justifyContent:'center',

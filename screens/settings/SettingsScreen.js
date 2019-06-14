@@ -1,10 +1,18 @@
 import React from 'react';
-import {View,Text,StyleSheet,Dimensions,Fragment } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Fragment ,
+  ActivityIndicator
+} from 'react-native';
 
 import PayButton from '../../components/PayButon';
 import { SETPUNISHMENT } from '../../graphql/mutation';
+import {PUNISHED_DATE} from '../../graphql/queries';
 
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import ProfileButton from '../../components/ProfileButton';
 
 let {height,width} = Dimensions.get('window');
@@ -33,12 +41,86 @@ export default class SettingsScreen extends React.Component {
       loading:false
     }
   }
+
+
   render() {
+  // return <Query query={PUNISHED_DATE} >{({data,loading,error})=>{
+  //   console.log(loading);
+  //   console.log(error);
+  //   if(loading) return null;  
+
+  //   console.log(JSON.stringify(data));
+
+  //   let array = data.punishedDate[0].Date_; 
+  //   let price = data.punishedDate[0].price ;
+  //   console.log(price);
+  //   console.log(array);
+  //   return null;
+
+  //   let monday =array.forEach((el)=>{
+  //     "Monday"===el?true:false;
+  //   });
+  //   let tuesday =array.forEach((el)=>{
+  //     "Tuesday"===el?true:false;
+  //   });
+  //   let wensday =array.forEach((el)=>{
+  //     "Wednesday"===el?true:false;
+  //     });
+  //     let thursday =array.forEach((el)=>{
+  //       "Thursday"===el?true:false;
+  //   });
+  //   let friday =array.forEach((el)=>{
+  //     "Friday"===el?true:false;
+  //   });
+  //   let saturday =array.forEach((el)=>{
+  //     "Saturday"===el?true:false;
+  // });
+  // let sunday =array.forEach((el)=>{
+  //   "Sunday"===el?true:false;
+  // });
+  // if(price === 5){
+  //   this.setState({
+  //     pay1:false,
+  //     pay5:true,
+  //     pay10:false,
+  //     pagesa:5
+  //   });
+  // }else if(price === 10){
+  //   this.setState({
+  //     pay1:false,
+  //     pay5:false,
+  //     pay10:true,
+  //     pagesa:10
+  //   });
+  // }else {
+  //   this.setState({
+  //     pagesa:1,
+  //     pay1:true,
+  //     pay5:false,
+  //     pay10:false,
+  //   })
+  // }
+  //   this.setState({
+  //     monday,tuesday,wensday,thursday,friday,saturday,sunday
+  //   });
 
     return (
-      <Mutation mutation={SETPUNISHMENT}>{(SetPunishment,{loading,data,error})=>(
-         <View style={styles.container}>
+      <Query query={PUNISHED_DATE}>{({data,loading,error})=>{
+        if(loading){
+          return <ActivityIndicator />
+        }else if(error){
+          return <Text>
+            {error}
+          </Text>
+        } 
+        const dataQuery=data;
+        console.log(dataQuery);
        
+      return <Mutation mutation={SETPUNISHMENT}>{(SetPunishment,{loading,data,error})=>(
+          
+       
+         <View style={styles.container}>
+            
             
                   <View style={styles.punishtext}>
                     <Text>
@@ -239,23 +321,30 @@ export default class SettingsScreen extends React.Component {
                         </View>
                   </View>
                   <View style={styles.paybutton}> 
+                 {this.state.done?
                     <ProfileButton width={width*0.83} name="Done" loading={this.state.loading} onPress={async ()=>{
                    
-                     this.setState({loading:loading})
-                     let {data}= await SetPunishment({             
+                     this.setState({loading});
+                      let {data} = await SetPunishment({             
                         variables:{
                           ToBePunished:true,
                           Date_:this.state.arrayweek,
-                          price:this.state.pagesa
+                          price:this.state.pagesa,
                         }});
-                         
-                      }}/>
+                    
+                      this.setState({loading:false,done:false});
+                      alert("Successfully Updated");
+                        
+                      }}/>:<View></View>}
                   </View> 
         
   
          </View>
        )}</Mutation>
+      }}</Query>
+
     )
+  // }}</Query>
   }
 }
 ;
@@ -282,7 +371,9 @@ const styles = StyleSheet.create({
 
   },
   paybutton :{
-   height:'30%'
+   height:'30%',
+   justifyContent:'center',
+   alignItems:'center'
   },
   punishtext:{
     justifyContent:'center',
