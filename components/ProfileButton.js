@@ -3,7 +3,8 @@ import {
     TouchableOpacity,
     Text,
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
+    
 } from 'react-native';
 
 export default class ProfileButton extends Component {

@@ -25,9 +25,7 @@ export default class SettingsScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      pay1:false,
-      pay5:false,
-      pay10:false,
+      pay:1,
       monday:true,
       tuesday:true,
       wensday:true,
@@ -37,91 +35,38 @@ export default class SettingsScreen extends React.Component {
       sunday:true,
       arrayweek:[],
       done:false,
-      pagesa:1,
-      loading:false
+      loading:false,
+      payclick:false
+      
     }
   }
 
 
   render() {
-  // return <Query query={PUNISHED_DATE} >{({data,loading,error})=>{
-  //   console.log(loading);
-  //   console.log(error);
-  //   if(loading) return null;  
-
-  //   console.log(JSON.stringify(data));
-
-  //   let array = data.punishedDate[0].Date_; 
-  //   let price = data.punishedDate[0].price ;
-  //   console.log(price);
-  //   console.log(array);
-  //   return null;
-
-  //   let monday =array.forEach((el)=>{
-  //     "Monday"===el?true:false;
-  //   });
-  //   let tuesday =array.forEach((el)=>{
-  //     "Tuesday"===el?true:false;
-  //   });
-  //   let wensday =array.forEach((el)=>{
-  //     "Wednesday"===el?true:false;
-  //     });
-  //     let thursday =array.forEach((el)=>{
-  //       "Thursday"===el?true:false;
-  //   });
-  //   let friday =array.forEach((el)=>{
-  //     "Friday"===el?true:false;
-  //   });
-  //   let saturday =array.forEach((el)=>{
-  //     "Saturday"===el?true:false;
-  // });
-  // let sunday =array.forEach((el)=>{
-  //   "Sunday"===el?true:false;
-  // });
-  // if(price === 5){
-  //   this.setState({
-  //     pay1:false,
-  //     pay5:true,
-  //     pay10:false,
-  //     pagesa:5
-  //   });
-  // }else if(price === 10){
-  //   this.setState({
-  //     pay1:false,
-  //     pay5:false,
-  //     pay10:true,
-  //     pagesa:10
-  //   });
-  // }else {
-  //   this.setState({
-  //     pagesa:1,
-  //     pay1:true,
-  //     pay5:false,
-  //     pay10:false,
-  //   })
-  // }
-  //   this.setState({
-  //     monday,tuesday,wensday,thursday,friday,saturday,sunday
-  //   });
-
     return (
       <Query query={PUNISHED_DATE}>{({data,loading,error})=>{
         if(loading){
           return <ActivityIndicator />
-        }else if(error){
+        } if(error){
           return <Text>
             {error}
           </Text>
         } 
-        const dataQuery=data;
-        console.log(dataQuery);
-       
+        console.log(JSON.stringify(data));
+        let length =data.punishedDate.length-1;
+        let daysArray = data.punishedDate[length].Date_;
+        let price = data.punishedDate[length].price;
+        let pay;
+        if(this.state.payclick){
+        pay=this.state.pay;
+        }
+        else{        
+        pay = price;
+      }
+        
+
       return <Mutation mutation={SETPUNISHMENT}>{(SetPunishment,{loading,data,error})=>(
-          
-       
          <View style={styles.container}>
-            
-            
                   <View style={styles.punishtext}>
                     <Text>
                           Select how much do you want to be punished.
@@ -130,44 +75,46 @@ export default class SettingsScreen extends React.Component {
                   <View style={styles.butonat}>
                     
                         <PayButton 
-                            color={this.state.pay1?'white':'black'} 
-                            style1={{backgroundColor:this.state.pay1?'#8B0000':'#D3D3D3',borderColor:this.state.pay1?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
+                            color={pay===1?'white':'black'} 
+                            style1={{backgroundColor:pay===1?'#8B0000':'#D3D3D3',borderColor:pay===1  ?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
                             backcolor={this.state.first} 
-                            onPress={ async ()=>{
-                            await this.setState({
-                              pay1:!this.state.pay1,
-                              pay5:false,
-                              pay10:false,
-                              pagesa:1
+                            onPress={  ()=>{ 
+                            this.setState({
+                              pay:1,
+                              pagesa:1,
+                              done:true,
+                              payclick:true
                               })
                             }} 
                             name="1$" 
                         />
                         <PayButton 
-                            color={this.state.pay5?'white':'black'}
-                            style1={{backgroundColor:this.state.pay5?'#8B0000':'#D3D3D3',borderColor:this.state.pay5?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
+                            color={pay===5?'white':'black'}
+                            style1={{backgroundColor:pay===5?'#8B0000':'#D3D3D3',borderColor:pay===5?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
                             backcolor={this.state.second}
-                            onPress={async ()=>{
-                            await this.setState({
-                                pay1:false,
-                                pay5:!this.state.pay5,
-                                pay10:false,
-                                pagesa:5
+                            onPress={ ()=>{
+                            this.setState({
+                                pagesa:5,
+                                pay:5,
+                                done:true,
+                              payclick:true
+                                
 
                               })
                             }}
                             name="5$"
                         />
                         <PayButton 
-                            color={this.state.pay10?'white':'black'}
-                            style1={{backgroundColor:this.state.pay10?'#8B0000':'#D3D3D3',borderColor:this.state.pay10?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                            color={pay===10?'white':'black'}
+                            style1={{backgroundColor:pay===10?'#8B0000':'#D3D3D3',borderColor:pay===10?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
                             backcolor={this.state.third}
-                              onPress={ async ()=>{
-                              await this.setState({
-                                pay1:false,
-                                pay5:false,
-                                pay10:!this.state.pay10,
-                                pagesa:10
+                              onPress={  ()=>{
+                              this.setState({
+                               pay:10,
+                                pagesa:10,
+                                done:true,
+                              payclick:true
+
                                 })
                             }}
                             name="10$"
@@ -187,16 +134,13 @@ export default class SettingsScreen extends React.Component {
                           {/* dita e HANE*/}
                           <PayButton 
                                 name="Mon"
-                                onPress={ async ()=>{
-                                  await this.setState({
+                                onPress={  ()=>{
+                                  this.setState({
                                     monday:!this.state.monday,
                                   })
-                                  await this.setState({
+                                  this.setState({
                                       arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                     });
-                                  
-                                  console.log(this.state.arrayweek);
-
                                   this.setState({done:true});
 
                                   
@@ -209,15 +153,15 @@ export default class SettingsScreen extends React.Component {
                           <PayButton 
                                 name="Tues"
                                 style1={{width:width*0.22,backgroundColor:this.state.tuesday?'#8B0000':'#D3D3D3',borderColor:this.state.tuesday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                                onPress={ async ()=>{
-                                  await this.setState({
+                                onPress={  ()=>{
+                                  this.setState({
                                     tuesday:!this.state.tuesday,
                                   })
-                                  await this.setState({
+                                  this.setState({
                                       arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                     });
                                 
-                                  console.log(this.state.arrayweek);
+                                  
 
                                   this.setState({done:true});
                                 }}
@@ -228,15 +172,15 @@ export default class SettingsScreen extends React.Component {
                           <PayButton 
                               name="Wed"
                               style1={{width:width*0.22,backgroundColor:this.state.wensday?'#8B0000':'#D3D3D3',borderColor:this.state.wensday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                              onPress={ async ()=>{
-                                await this.setState({
+                              onPress={  ()=>{
+                                this.setState({
                                   wensday:!this.state.wensday,
                                 })
-                                await  this.setState({
+                                 this.setState({
                                     arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                   });
                               
-                                console.log(this.state.arrayweek);
+                                
 
                                 this.setState({done:true});
                               }}
@@ -247,15 +191,15 @@ export default class SettingsScreen extends React.Component {
                           <PayButton 
                               name="Thurs"
                               style1={{width:width*0.22,backgroundColor:this.state.thursday?'#8B0000':'#D3D3D3',borderColor:this.state.thursday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                              onPress={ async ()=>{
-                                await this.setState({
+                              onPress={  ()=>{
+                                this.setState({
                                     thursday:!this.state.thursday,
                                   })
-                                  await this.setState({
+                                  this.setState({
                                       arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                     });
                                   
-                                  console.log(this.state.arrayweek);
+                                  
 
                                   this.setState({done:true});
                                 }}
@@ -267,15 +211,15 @@ export default class SettingsScreen extends React.Component {
                               <PayButton
                               name="Fri"
                               style1={{width:width*0.22,backgroundColor:this.state.friday?'#8B0000':'#D3D3D3',borderColor:this.state.friday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                onPress={ async ()=>{
-                                  await this.setState({
+                                onPress={  ()=>{
+                                  this.setState({
                                         friday:!this.state.friday,
                                         })
-                                        await this.setState({
+                                        this.setState({
                                             arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                           });
                                         
-                                      console.log(this.state.arrayweek);
+                                      
 
                                       this.setState({done:true});
                                     }}
@@ -286,15 +230,15 @@ export default class SettingsScreen extends React.Component {
                               <PayButton 
                               name="Sat"
                               style1={{width:width*0.22,backgroundColor:this.state.saturday?'#8B0000':'#D3D3D3',borderColor:this.state.saturday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                    onPress={ async ()=>{
-                                      await this.setState({
+                                    onPress={  ()=>{
+                                      this.setState({
                                         saturday:!this.state.saturday,   
                                       })
-                                      await  this.setState({
+                                       this.setState({
                                           arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                         });
                                     
-                                      console.log(this.state.arrayweek);
+                                      
                                       
                                       this.setState({done:true});
                                     }}
@@ -305,14 +249,14 @@ export default class SettingsScreen extends React.Component {
                               <PayButton  
                               name="Sun"
                               style1={{width:width*0.22,backgroundColor:this.state.sunday?'#8B0000':'#D3D3D3',borderColor:this.state.sunday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                    onPress={ async ()=>{
-                                      await this.setState({
+                                    onPress={  ()=>{
+                                      this.setState({
                                         sunday:!this.state.sunday,
                                         })
-                                        await this.setState({
+                                        this.setState({
                                             arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                           })
-                                      console.log(this.state.arrayweek);
+                                      
                                         
                                       this.setState({done:true});
                                     }}
@@ -322,18 +266,20 @@ export default class SettingsScreen extends React.Component {
                   </View>
                   <View style={styles.paybutton}> 
                  {this.state.done?
-                    <ProfileButton width={width*0.83} name="Done" loading={this.state.loading} onPress={async ()=>{
+                    <ProfileButton width={width*0.83} name="Done" loading={this.state.loading} onPress={async  ()=>{
                    
                      this.setState({loading});
                       let {data} = await SetPunishment({             
                         variables:{
                           ToBePunished:true,
                           Date_:this.state.arrayweek,
-                          price:this.state.pagesa,
+                          price:this.state.pay,
                         }});
                     
                       this.setState({loading:false,done:false});
                       alert("Successfully Updated");
+                      this.props.navigation.navigate('Home');
+                      
                         
                       }}/>:<View></View>}
                   </View> 
