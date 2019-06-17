@@ -3,14 +3,15 @@ import {
     TouchableOpacity,
     Text,
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
+    
 } from 'react-native';
 
 export default class ProfileButton extends Component {
     render(){
         return(
 
-            <TouchableOpacity style={[styles.container,{width:this.props.width}]} onPress={this.props.onPress}>
+            <TouchableOpacity style={[styles.container,{width:this.props.width},this.props.style]} onPress={this.props.onPress}>
                {this.props.loading?
                <ActivityIndicator/>:
                 <Text style={styles.txt}>
@@ -26,11 +27,12 @@ export default class ProfileButton extends Component {
 const styles =StyleSheet.create({
     container :{
         height:60,
-        borderBottomWidth:1,
-        borderBottomColor:'grey',
-      
+        borderWidth:1,
+        borderColor:'grey',
+        borderRadius:30,
         justifyContent:'center',
         alignItems:'center',
+        marginTop:10
 
     },
     name : {

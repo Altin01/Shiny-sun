@@ -1,10 +1,18 @@
 import React from 'react';
-import {View,Text,StyleSheet,Dimensions,Fragment } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Fragment ,
+  ActivityIndicator
+} from 'react-native';
 
 import PayButton from '../../components/PayButon';
 import { SETPUNISHMENT } from '../../graphql/mutation';
+import {PUNISHED_DATE} from '../../graphql/queries';
 
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import ProfileButton from '../../components/ProfileButton';
 
 let {height,width} = Dimensions.get('window');
@@ -17,9 +25,7 @@ export default class SettingsScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      pay1:false,
-      pay5:false,
-      pay10:false,
+      pay:1,
       monday:true,
       tuesday:true,
       wensday:true,
@@ -29,17 +35,52 @@ export default class SettingsScreen extends React.Component {
       sunday:true,
       arrayweek:[],
       done:false,
-      pagesa:1,
-      loading:false
+      loading:false,
+      payclick:false
+      
     }
   }
-  render() {
 
+
+  render() {
     return (
-      <Mutation mutation={SETPUNISHMENT}>{(SetPunishment,{loading,data,error})=>(
-         <View style={styles.container}>
+      <Query query={PUNISHED_DATE}>{({data,loading,error})=>{
+        if(loading){
+          return <ActivityIndicator />
+        } if(error){
+          return <Text>
+            {error}
+          </Text>
+        } 
        
-            
+        let length =data.punishedDate.length-1;
+        let daysArray = data.punishedDate[length].Date_;
+        let price = data.punishedDate[length].price;
+        let pay;  
+       
+        if(this.state.payclick){
+        pay=this.state.pay;
+        }
+        else{        
+        pay = price;
+       }
+
+
+      let monday=daysArray[0].length>=1?true:false;
+      let tuesday=daysArray[1].length>=1?true:false;
+      let wensday=daysArray[2].length>=1?true:false;
+      let thursday=daysArray[3].length>=1?true:false;
+      let friday=daysArray[4].length>=1?true:false;
+      let saturday=daysArray[5].length>=1?true:false;
+      let sunday=daysArray[6].length>=1?true:false;
+
+
+      console.log(daysArray);
+
+
+
+      return <Mutation mutation={SETPUNISHMENT}>{(SetPunishment,{loading,data,error})=>(
+         <View style={styles.container}>
                   <View style={styles.punishtext}>
                     <Text>
                           Select how much do you want to be punished.
@@ -48,44 +89,49 @@ export default class SettingsScreen extends React.Component {
                   <View style={styles.butonat}>
                     
                         <PayButton 
-                            color={this.state.pay1?'white':'black'} 
-                            style1={{backgroundColor:this.state.pay1?'#8B0000':'#D3D3D3',borderColor:this.state.pay1?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
+                            color={pay===1?'white':'black'} 
+                            style1={{backgroundColor:pay===1?'#8B0000':'#D3D3D3',borderColor:pay===1  ?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
                             backcolor={this.state.first} 
-                            onPress={ async ()=>{
-                            await this.setState({
-                              pay1:!this.state.pay1,
-                              pay5:false,
-                              pay10:false,
-                              pagesa:1
-                              })
+                            onPress={()=>{ 
+                              this.setState({
+                                pay:1,
+                                pagesa:1,
+                                payclick:true,
+                                done:true
+                                });
+
                             }} 
                             name="1$" 
                         />
                         <PayButton 
-                            color={this.state.pay5?'white':'black'}
-                            style1={{backgroundColor:this.state.pay5?'#8B0000':'#D3D3D3',borderColor:this.state.pay5?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
+                            color={pay===5?'white':'black'}
+                            style1={{backgroundColor:pay===5?'#8B0000':'#D3D3D3',borderColor:pay===5?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
                             backcolor={this.state.second}
-                            onPress={async ()=>{
-                            await this.setState({
-                                pay1:false,
-                                pay5:!this.state.pay5,
-                                pay10:false,
-                                pagesa:5
+                            onPress={ ()=>{
+                            this.setState({
+                                pagesa:5,
+                                pay:5,
+                                payclick:true,
+                                done:true
+                                
 
                               })
+                            
                             }}
                             name="5$"
                         />
                         <PayButton 
-                            color={this.state.pay10?'white':'black'}
-                            style1={{backgroundColor:this.state.pay10?'#8B0000':'#D3D3D3',borderColor:this.state.pay10?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                            color={pay===10?'white':'black'}
+                            style1={{backgroundColor:pay===10?'#8B0000':'#D3D3D3',borderColor:pay===10?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
                             backcolor={this.state.third}
-                              onPress={ async ()=>{
-                              await this.setState({
-                                pay1:false,
-                                pay5:false,
-                                pay10:!this.state.pay10,
-                                pagesa:10
+                              onPress={  ()=>{
+                              this.setState({
+                                pay:10,
+                                pagesa:10,
+                                payclick:true,
+                                done:true,
+                              
+
                                 })
                             }}
                             name="10$"
@@ -105,157 +151,169 @@ export default class SettingsScreen extends React.Component {
                           {/* dita e HANE*/}
                           <PayButton 
                                 name="Mon"
-                                onPress={ async ()=>{
-                                  await this.setState({
+                                onPress={  ()=>{
+                                  this.setState({
                                     monday:!this.state.monday,
+                                    done:true,
+
                                   })
-                                  await this.setState({
+                                  monday=!monday;
+                                  this.setState({
                                       arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                     });
-                                  
-                                  console.log(this.state.arrayweek);
-
-                                  this.setState({done:true});
-
+                                   
                                   
                                 }}
-                                style1={{width:width*0.22,backgroundColor:this.state.monday?'#8B0000':'#D3D3D3',borderColor:this.state.monday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                                color={this.state.monday?'white':'black'}
+                                style1={{width:width*0.22,backgroundColor:monday?'#8B0000':'#D3D3D3',borderColor:monday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
+                                color={monday?'white':'black'}
                           /> 
 
-                          {/* dita e MARTE*/}
+                          {/* dita e MARTE*/}           
                           <PayButton 
                                 name="Tues"
-                                style1={{width:width*0.22,backgroundColor:this.state.tuesday?'#8B0000':'#D3D3D3',borderColor:this.state.tuesday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                                onPress={ async ()=>{
-                                  await this.setState({
+                                style1={{width:width*0.22,backgroundColor:tuesday?'#8B0000':'#D3D3D3',borderColor:tuesday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
+                                onPress={  ()=>{
+                                  this.setState({
                                     tuesday:!this.state.tuesday,
-                                  })
-                                  await this.setState({
+                                    done:true,
+
+                                  });
+                                  tuesday=!tuesday;
+                                  this.setState({
                                       arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                     });
-                                
-                                  console.log(this.state.arrayweek);
-
-                                  this.setState({done:true});
+                                   
                                 }}
-                                  color={this.state.tuesday?'white':'black'}
+                                  color={tuesday?'white':'black'}
                             /> 
 
                           {/* dita e MERKURE*/}
                           <PayButton 
                               name="Wed"
-                              style1={{width:width*0.22,backgroundColor:this.state.wensday?'#8B0000':'#D3D3D3',borderColor:this.state.wensday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                              onPress={ async ()=>{
-                                await this.setState({
+                              style1={{width:width*0.22,backgroundColor:wensday?'#8B0000':'#D3D3D3',borderColor:wensday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
+                              onPress={  ()=>{
+                                this.setState({
                                   wensday:!this.state.wensday,
-                                })
-                                await  this.setState({
+                                  done:true,
+
+                                });
+                                wensday=!wensday;
+                                 this.setState({
                                     arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                   });
                               
-                                console.log(this.state.arrayweek);
+                               
 
-                                this.setState({done:true});
                               }}
-                                color={this.state.wensday?'white':'black'}
+                                color={wensday?'white':'black'}
                             /> 
 
                           {/* dita e ENJTE*/}
                           <PayButton 
                               name="Thurs"
-                              style1={{width:width*0.22,backgroundColor:this.state.thursday?'#8B0000':'#D3D3D3',borderColor:this.state.thursday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                              onPress={ async ()=>{
-                                await this.setState({
+                              style1={{width:width*0.22,backgroundColor:thursday?'#8B0000':'#D3D3D3',borderColor:thursday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
+                              onPress={  ()=>{
+                                this.setState({
                                     thursday:!this.state.thursday,
-                                  })
-                                  await this.setState({
+                                    done:true,
+
+                                  });
+                                  thursday=!thursday;
+                                  this.setState({
                                       arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                     });
                                   
-                                  console.log(this.state.arrayweek);
-
-                                  this.setState({done:true});
                                 }}
-                                  color={this.state.thursday?'white':'black'}
+                                  color={thursday?'white':'black'}
                             /> 
                         </View>
                         <View style={styles.ditet_posht}>
                               {/* dita e PREMTE*/}
                               <PayButton
                               name="Fri"
-                              style1={{width:width*0.22,backgroundColor:this.state.friday?'#8B0000':'#D3D3D3',borderColor:this.state.friday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                onPress={ async ()=>{
-                                  await this.setState({
+                              style1={{width:width*0.22,backgroundColor:friday?'#8B0000':'#D3D3D3',borderColor:friday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                                onPress={  ()=>{
+                                  this.setState({
                                         friday:!this.state.friday,
-                                        })
-                                        await this.setState({
+                                        done:true,
+
+                                        });
+                                        friday=!friday;
+                                        this.setState({
                                             arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                           });
-                                        
-                                      console.log(this.state.arrayweek);
-
-                                      this.setState({done:true});
                                     }}
-                                      color={this.state.friday?'white':'black'}
+                                      color={friday?'white':'black'}
                                 /> 
 
                               {/* dita e SHTUNE*/}
                               <PayButton 
                               name="Sat"
-                              style1={{width:width*0.22,backgroundColor:this.state.saturday?'#8B0000':'#D3D3D3',borderColor:this.state.saturday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                    onPress={ async ()=>{
-                                      await this.setState({
+                              style1={{width:width*0.22,backgroundColor:saturday?'#8B0000':'#D3D3D3',borderColor:saturday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                                    onPress={  ()=>{
+                                      this.setState({
                                         saturday:!this.state.saturday,   
-                                      })
-                                      await  this.setState({
+                                        done:true,
+
+                                      });
+                                      saturday=!saturday;
+                                       this.setState({
                                           arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                         });
-                                    
-                                      console.log(this.state.arrayweek);
                                       
-                                      this.setState({done:true});
+                                      
                                     }}
-                                      color={this.state.saturday?'white':'black'}
+                                      color={saturday?'white':'black'}
                                 /> 
 
                               {/* dita e DILLE*/}
                               <PayButton  
                               name="Sun"
-                              style1={{width:width*0.22,backgroundColor:this.state.sunday?'#8B0000':'#D3D3D3',borderColor:this.state.sunday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                    onPress={ async ()=>{
-                                      await this.setState({
+                              style1={{width:width*0.22,backgroundColor:sunday?'#8B0000':'#D3D3D3',borderColor:sunday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                                    onPress={  ()=>{
+                                      this.setState({
                                         sunday:!this.state.sunday,
-                                        })
-                                        await this.setState({
+                                        done:true,
+
+                                        });
+                                        sunday=!sunday;
+                                        this.setState({
                                             arrayweek:[this.state.monday?'Monday':'',this.state.tuesday?'Tuesday':'',this.state.wensday?'Wednesday':'',this.state.thursday?'Thursday':'',this.state.friday?'Friday':'',this.state.saturday?'Saturday':'',this.state.sunday?'Sunday':'']
                                           })
-                                      console.log(this.state.arrayweek);
-                                        
-                                      this.setState({done:true});
+                                       
                                     }}
-                                      color={this.state.sunday?'white':'black'}
+                                      color={sunday?'white':'black'}
                                 /> 
                         </View>
                   </View>
                   <View style={styles.paybutton}> 
-                    <ProfileButton width={width*0.83} name="Done" loading={this.state.loading} onPress={async ()=>{
+                 {this.state.done?
+                    <ProfileButton width={width*0.83} name="Done" loading={this.state.loading} onPress={async  ()=>{
                    
-                     this.setState({loading:loading})
-                     let {data}= await SetPunishment({             
+                     this.setState({loading:true});
+                      let {data} = await SetPunishment({             
                         variables:{
                           ToBePunished:true,
                           Date_:this.state.arrayweek,
-                          price:this.state.pagesa
+                          price:this.state.pay,
                         }});
-                         
-                      }}/>
+                        console.log(this.state.arrayweek);
+                    
+                      this.setState({loading:false,done:false});
+                      alert("Successfully Updated");
+                      this.props.navigation.navigate('Home');
+                      
+                        
+                      }}/>:<View></View>}
                   </View> 
         
   
          </View>
        )}</Mutation>
+      }}</Query>
+
     )
+  // }}</Query>
   }
 }
 ;
@@ -282,7 +340,9 @@ const styles = StyleSheet.create({
 
   },
   paybutton :{
-   height:'30%'
+   height:'30%',
+   justifyContent:'center',
+   alignItems:'center'
   },
   punishtext:{
     justifyContent:'center',
