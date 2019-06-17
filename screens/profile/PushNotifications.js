@@ -1,6 +1,6 @@
                 import React, {Component} from 'react';
 
-                import {View,Text,StyleSheet,Picker} from 'react-native';
+                import {View,Text,StyleSheet,Picker,ScrollView} from 'react-native';
 
                 export default class PushNotifications extends Component{
                     constructor(props){
@@ -13,8 +13,10 @@
                 render(){
                     return(
                 <View style={styles.container}>
+                                    <Text>Chose your notification time in minutes</Text>
 
-                <Text>Chose your notification time in minutes</Text>
+               <ScrollView style={styles.scroll_view}>
+
 
 
                 <Picker style={styles.picker}
@@ -29,7 +31,7 @@
               
 
                 </Picker>
-
+</ScrollView>
                 </View>
 
                     );
