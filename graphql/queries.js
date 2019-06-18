@@ -14,7 +14,8 @@ query PunishedDate {
     punishedDate{
         id,
         Date_,
-        price
+        price,
+        ToBePunished,
     }
 }
 

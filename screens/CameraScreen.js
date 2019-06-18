@@ -34,8 +34,10 @@ export default class HomeScreen extends React.Component {
             pictureUrl:'',
             t: true,
             camera_roll_permission:false,
-            takePhoto:false
-          
+            takePhoto:false,
+            clicked:false,
+            timeS:0
+
           };
          this.camera;
         
@@ -75,16 +77,20 @@ export default class HomeScreen extends React.Component {
    } 
 
    takePicture= async ()=>{
-    this.setState({takePhoto:false})
-    if(this.camera && this.state.camera_roll_permission && this.state.takePhoto){
+    this.setState({takePhoto:false,clicked:true})
+    if(this.camera && this.state.camera_roll_permission && this.state.timeS===0){
           let photo = await this.camera.takePictureAsync({skipProcessing:true});
-          CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
-          alert("Your picture is saved in your gallery");
-          this.props.navigation.navigate('Home');
+        //   CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
+        //   alert("Your picture is saved in your gallery");
+        //   this.props.navigation.navigate('Home');
        
-        }).catch((err)=>{
-          alert(err);
-        })
+        // }).catch((err)=>{
+        //   alert(err);
+        // })
+        this.setState({timeS:300});
+
+
+
      }
 
     
@@ -151,8 +157,11 @@ export default class HomeScreen extends React.Component {
                       />
                       }
                       <View style={styles.posht}>
-                           <TouchableOpacity disabled={!this.state.takePhoto} style={styles.cameratouch} onPress={this.takePicture}>
-                             <Ionicons style={{marginBottom:22}} name={Platform.OS ==='ios'?'ios-camera' :'md-camera'} color="white" size={60} />
+                           <TouchableOpacity disabled={this.state.timeS===0?true:false} style={styles.cameratouch} onPress={this.takePicture}>
+                             {/* <Ionicons style={{marginBottom:22}} name={Platform.OS ==='ios'?'ios-camera' :'md-camera'} color="white" size={60} /> */}
+                             {this.state.clicked?<Text>  Timer  </Text>:<Text style={styles.cameratxt}>
+                              Start
+                             </Text>}
                            </TouchableOpacity>
                       </View>
             </View>)
@@ -168,17 +177,15 @@ const styles = StyleSheet.create({
   },
   nalt:{
     flexDirection:'row',
-    height:'15%',
+    height:'12%',
     width:'100%',
     backgroundColor:'black',
   
   },
   posht:{
-    height:'15%',
+    height:'17%',
     width:'100%',
     backgroundColor:'black',
-    top:0,
-    bottom:0,
     justifyContent:'center',
     alignItems:'center',
   
@@ -205,7 +212,10 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     borderWidth:1,
-    marginBottom:10
+    borderColor:'#1B971B',
+    backgroundColor:'#1B971B',
+    borderRadius:35,
+     marginBottom  :20
 
 
   },
@@ -233,5 +243,9 @@ const styles = StyleSheet.create({
     width:'20%',
     justifyContent:'center',
     alignItems:'center',
+  },
+  cameratxt:{
+    fontSize:20,
+    color:'#FEFEFE'
   }
 });
