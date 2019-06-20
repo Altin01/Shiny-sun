@@ -25,7 +25,8 @@ const HomeStack = createStackNavigator({
 {
   navigationOptions:()=>({
   header:"home",
-  headerBackground:'red'
+  headerBackground:'red',
+  tabBarLabel: 'Home',
   })
 });
 

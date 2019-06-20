@@ -154,8 +154,8 @@ class SettingsScreen extends Component {
                   </View>
                   <View style={styles.ditet}>
                     <View style={styles.week_text}>
-                        <Text>
-                          Turn On or Of wich days tou dont want to be punished(By Default all days are ON).
+                        <Text style={{justifyContent:'center',alignItems:'center'}}>
+                          Turn On or Of which days you don't want to be punished when you don't make a photo(By Default all days are ON).
                         </Text>
                     </View>
                     <View style={styles.ditet_nalt}>
@@ -364,8 +364,6 @@ const styles = StyleSheet.create({
   },
   butonat :{
     height:'20%',
-    borderBottomColor:'#919191',
-    borderBottomWidth:1,
     flex:1,
     justifyContent:'center',
     alignItems:'center',
@@ -404,6 +402,7 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:'center',
     alignItems:'center',
+    padding:20
     
   }
   
