@@ -1,23 +1,22 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
-  Fragment ,
   ActivityIndicator
 } from 'react-native';
 
 import PayButton from '../../components/PayButon';
-import { SETPUNISHMENT } from '../../graphql/mutation';
-import {PUNISHED_DATE} from '../../graphql/queries';
-import {withApollo} from 'react-apollo';
+import { CHANGE_SETTINGS } from '../../graphql/mutation';
+import {PUNISHED_DAYS} from '../../graphql/queries';
 
 import { Mutation, Query } from 'react-apollo';
 import ProfileButton from '../../components/ProfileButton';
 
 let {height,width} = Dimensions.get('window');
-class SettingsScreen extends React.Component {
+
+class SettingsScreen extends Component {
   static navigationOptions = {
     title: 'Settings',
     
@@ -26,61 +25,43 @@ class SettingsScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      pay:1,
-      monday:true,
-      tuesday:true,
-      wensday:true,
-      thursday:true,
-      friday:true,
-      saturday:true,
-      sunday:true,
-      arrayweek:[],
-      done:false,
-      loading:false,
-      payclick:false,
-      dataloading:true,
-      data:false
+      p1:false,
+      p5:false,
+      p10:false,
+      monday:false,
+      tuesday:false,
+      wednesday:false,
+      thursday:false,
+      friday:false,
+      saturday:false,
+      sunday:false,
       
     }
  
   }
 
-  componentWillMount= async ()=>{
-
-  await this.props.client.query({
-      query:PUNISHED_DATE,
-    }).then((data)=>{
-      let length=  data.data.punishedDate.length-1;
-      let daysarr =  data.data.punishedDate[length].Date_;
-      let price =  data.data.punishedDate[length].price;
-      console.log(JSON.stringify(daysarr));
-
-      this.setState({
-        pay:price,
-        monday:daysarr.forEach(element => element==="Monday"?true:false),
-        tuesday:daysarr.forEach(element => element==="Tuesday"?true:false),
-        wensday:daysarr.forEach(element => element==="Wednesday"?true:false),
-        thursday:daysarr.forEach(element => element==="Thursday"?true:false),
-        friday:daysarr.forEach(element => element==="Friday"?true:false),
-        saturday:daysarr.forEach(element => element==="Saturday"?true:false),
-        sunday:daysarr.forEach(element => element==="Sunday"?true:false),
-        arrayweek:[...daysarr],
-      
-
-        
-      })
-      this.setState({data:true});
- 
-        })
-  
-  }
-  
   render() {
- 
-       if(!this.state.data){
-         return <ActivityIndicator />
-       }
-      return <Mutation mutation={SETPUNISHMENT}>{(SetPunishment,{loading,data,error})=>(
+   return <Query query={PUNISHED_DAYS}>{({data,loading,error})=>{
+      if(loading){
+        return <View>
+            <ActivityIndicator/>
+        </View>
+      }else if (error){
+          return <View>
+                error
+          </View>
+      }
+      let monday = data.punishedDays.monday;
+      let tuesday= data.punishedDays.tuesday;
+      let wednesday= data.punishedDays.wednesday;
+      let thursday = data.punishedDays.thursday;
+      let friday = data.punishedDays.friday;
+      let saturday= data.punishedDays.saturday;
+      let sunday = data.punishedDays.sunday;
+      let price= data.punishedDays.price;
+      console.log(JSON.stringify(data));
+      
+      return <Mutation mutation={CHANGE_SETTINGS}>{(changeSettings,{loading,data,error})=>(
          <View style={styles.container}>
                   <View style={styles.punishtext}>
                     <Text>
@@ -90,50 +71,80 @@ class SettingsScreen extends React.Component {
                   <View style={styles.butonat}>
                     
                         <PayButton 
-                            color={this.state.pay===1?'white':'black'} 
-                            style1={{backgroundColor:this.state.pay===1?'#8B0000':'#D3D3D3',borderColor:this.state.pay===1  ?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
+                          
+                            color={price===1?'white':'black'} 
+                            style1={{backgroundColor:price===1?'#8B0000':'#D3D3D3',borderColor:price===1  ?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
                             backcolor={this.state.first} 
-                            onPress={()=>{ 
-                              this.setState({
-                                pay:1,
-                                pagesa:1,
-                                payclick:true,
-                                done:true
-                                });
+                            onPress={ async()=>{ 
+                             
+                              let {data} = await changeSettings({
+                                variables :{
+                                  monday:monday,
+                                  tuesday:tuesday,
+                                  wednesday:wednesday,
+                                  thursday:thursday,
+                                  friday:friday,
+                                  saturday:saturday,
+                                  sunday:sunday,
+                                  price:1
+                                }
+                              })
+                                 console.log(price);
+                              console.log(JSON.stringify(data));
+                             
 
                             }} 
                             name="1$" 
                         />
                         <PayButton 
-                            color={this.state.pay===5?'white':'black'}
-                            style1={{backgroundColor:this.state.pay===5?'#8B0000':'#D3D3D3',borderColor:this.state.pay===5?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
+                           
+                            color={price===5?'white':'black'}
+                            style1={{backgroundColor:price===5?'#8B0000':'#D3D3D3',borderColor:price===5?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:40}}
                             backcolor={this.state.second}
-                            onPress={ ()=>{
-                            this.setState({
-                                pagesa:5,
-                                pay:5,
-                                payclick:true,
-                                done:true
-                                
-
-                              })
+                            onPress={ async ()=>{
                             
+                              let {data} = await changeSettings({
+                                variables :{
+                                  monday:monday,
+                                  tuesday:tuesday,
+                                  wednesday:wednesday,
+                                  thursday:thursday,
+                                  friday:friday,
+                                  saturday:saturday,
+                                  sunday:sunday,
+                                  price:5
+                                }
+                              })
+                              console.log(JSON.stringify(data));
+                              console.log(price);
+                             
+
                             }}
-                            name="5$"
+                            name="5$" 
                         />
                         <PayButton 
-                            color={this.state.pay===10?'white':'black'}
-                            style1={{backgroundColor:this.state.pay===10?'#8B0000':'#D3D3D3',borderColor:this.state.pay===10?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                       
+                            color={price===10?'white':'black'}
+                            style1={{backgroundColor:price===10?'#8B0000':'#D3D3D3',borderColor:price===10?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
                             backcolor={this.state.third}
-                              onPress={  ()=>{
-                              this.setState({
-                                pay:10,
-                                pagesa:10,
-                                payclick:true,
-                                done:true,
-                              
-
+                              onPress={ async ()=>{
+                               
+                                let {data} = await changeSettings({
+                                  variables :{
+                                    monday:monday,
+                                    tuesday:tuesday,
+                                    wednesday:wednesday,
+                                    thursday:thursday,
+                                    friday:friday,
+                                    saturday:saturday,
+                                    sunday:sunday,
+                                    price:10
+                                  }
                                 })
+                                console.log(price);
+                              console.log(JSON.stringify(data));
+                          
+
                             }}
                             name="10$"
                         />
@@ -151,171 +162,196 @@ class SettingsScreen extends React.Component {
 
                           {/* dita e HANE*/}
                           <PayButton 
-                                name="Mon"
-                                onPress={  ()=>{
-                                  console.log(this.state.monday);
-                                  this.setState({
-                                    monday:!this.state.monday,
-                                    done:true,
-
-                                  })
                                
-                                  this.setState({
-                                      arrayweek:[this.state.monday?"Monday":"",this.state.tuesday?"Tuesday":"",this.state.wensday?"Wednesday":"",this.state.thursday?"Thursday":"",this.state.friday?"Friday":"",this.state.saturday?"Saturday":"",this.state.sunday?"Sunday":""]
-                                    });
-                                   
-                                  
+                                name="Mon"
+                                onPress={ async ()=>{
+                                 
+                                  let {data} = await changeSettings({
+                                    variables :{
+                                      monday:!monday,
+                                      tuesday:tuesday,
+                                      wednesday:wednesday,
+                                      thursday:thursday,
+                                      friday:friday,
+                                      saturday:saturday,
+                                      sunday:sunday,
+                                      price:price
+                                    }
+                                  })
+                                 console.log(JSON.stringify(data));
+                                
+
+
                                 }}
-                                style1={{width:width*0.22,backgroundColor:this.state.monday?'#8B0000':'#D3D3D3',borderColor:this.state.monday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                                color={this.state.monday?'white':'black'}
+                                style1={{width:width*0.22,backgroundColor:monday?'#8B0000':'#D3D3D3',borderColor:monday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
+                                color={monday?'white':'black'}
                           /> 
 
                           {/* dita e MARTE*/}           
                           <PayButton 
+                               
                                 name="Tues"
-                                style1={{width:width*0.22,backgroundColor:this.state.tuesday?'#8B0000':'#D3D3D3',borderColor:this.state.tuesday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                                onPress={  ()=>{
-                                  console.log(this.state.tuesday);
-                                  this.setState({
-                                    tuesday:!this.state.tuesday,
-                                    done:true,
-
-                                  });
-                                 
-                                  this.setState({
-                                    arrayweek:[this.state.monday?"Monday":"",this.state.tuesday?"Tuesday":"",this.state.wensday?"Wednesday":"",this.state.thursday?"Thursday":"",this.state.friday?"Friday":"",this.state.saturday?"Saturday":"",this.state.sunday?"Sunday":""]                                    });
-                                   
+                                style1={{width:width*0.22,backgroundColor:tuesday?'#8B0000':'#D3D3D3',borderColor:tuesday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
+                                onPress={ async ()=>{
+                              
+                                  let {data} = await changeSettings({
+                                    variables :{
+                                      monday:monday,
+                                      tuesday:!tuesday,
+                                      wednesday:wednesday,
+                                      thursday:thursday,
+                                      friday:friday,
+                                      saturday:saturday,
+                                      sunday:sunday,
+                                      price:price
+                                    }
+                                    
+                                  })
+                                  
+                              console.log(JSON.stringify(data));
+                                  
                                 }}
-                                  color={this.state.tuesday?'white':'black'}
-                            /> 
+                                
+                                  color={tuesday?'white':'black'} /> 
 
                           {/* dita e MERKURE*/}
                           <PayButton 
+                             
                               name="Wed"
-                              style1={{width:width*0.22,backgroundColor:this.state.wensday?'#8B0000':'#D3D3D3',borderColor:this.state.wensday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                              onPress={  ()=>{
-                                console.log(this.state.wensday);
-
-                                this.setState({
-                                  
-                                  wensday:!this.state.wensday,
-                                  done:true,
-
-                                });
-                          
-                                 this.setState({
-                                  arrayweek:[this.state.monday?"Monday":"",this.state.tuesday?"Tuesday":"",this.state.wensday?"Wednesday":"",this.state.thursday?"Thursday":"",this.state.friday?"Friday":"",this.state.saturday?"Saturday":"",this.state.sunday?"Sunday":""]
-                                    });
-                              
+                              style1={{width:width*0.22,backgroundColor:wednesday?'#8B0000':'#D3D3D3',borderColor:wednesday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
+                              onPress={ async ()=>{
                                
-
+                                let {data} = await changeSettings({
+                                  variables :{
+                                    monday:monday,
+                                    tuesday:tuesday,
+                                    wednesday:!wednesday,
+                                    thursday:thursday,
+                                    friday:friday,
+                                    saturday:saturday,
+                                    sunday:sunday,
+                                    price:price
+                                  }
+                                })
+                              
+                              console.log(JSON.stringify(data));
+                               
                               }}
-                                color={this.state.wensday?'white':'black'}
+                                color={wednesday?'white':'black'}
                             /> 
 
                           {/* dita e ENJTE*/}
                           <PayButton 
+                             
                               name="Thurs"
-                              style1={{width:width*0.22,backgroundColor:this.state.thursday?'#8B0000':'#D3D3D3',borderColor:this.state.thursday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
-                              onPress={  ()=>{
-                                this.setState({
-                                    thursday:!this.state.thursday,
-                                    done:true,
-
-                                  });
-                                
-                                  this.setState({
-                                    arrayweek:[this.state.monday?"Monday":"",this.state.tuesday?"Tuesday":"",this.state.wensday?"Wednesday":"",this.state.thursday?"Thursday":"",this.state.friday?"Friday":"",this.state.saturday?"Saturday":"",this.state.sunday?"Sunday":""]
-                                    });
-                                  
+                              style1={{width:width*0.22,backgroundColor:thursday?'#8B0000':'#D3D3D3',borderColor:thursday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:5}}
+                              onPress={ async ()=>{
+                              
+                                let {data} = await changeSettings({
+                                  variables :{
+                                    monday:monday,
+                                    tuesday:tuesday,
+                                    wednesday:wednesday,
+                                    thursday:!thursday,
+                                    friday:friday,
+                                    saturday:saturday,
+                                    sunday:sunday,
+                                    price:price
+                                  }
+                                })
+                               
+                                console.log(JSON.stringify(data));
                                 }}
-                                  color={this.state.thursday?'white':'black'}
+                                  color={thursday?'white':'black'}
                             /> 
                         </View>
                         <View style={styles.ditet_posht}>
                               {/* dita e PREMTE*/}
                               <PayButton
-                              name="Fri"
-                              style1={{width:width*0.22,backgroundColor:this.state.friday?'#8B0000':'#D3D3D3',borderColor:this.state.friday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                onPress={  ()=>{
-                                  this.setState({
-                                        friday:!this.state.friday,
-                                        done:true,
+                                 
+                                  name="Fri"
+                                  style1={{width:width*0.22,backgroundColor:friday?'#8B0000':'#D3D3D3',borderColor:friday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                                    onPress={ async ()=>{
+                                  
+                                      let {data} = await changeSettings({
+                                        variables :{
+                                          monday:monday,
+                                          tuesday:tuesday,
+                                          wednesday:wednesday,
+                                          thursday:thursday,
+                                          friday:!friday,
+                                          saturday:saturday,
+                                          sunday:sunday,
+                                          price:price
+                                        }
+                                      })
+                                     
 
-                                        });
-                                        this.setState({
-                                          arrayweek:[this.state.monday?"Monday":"",this.state.tuesday?"Tuesday":"",this.state.wensday?"Wednesday":"",this.state.thursday?"Thursday":"",this.state.friday?"Friday":"",this.state.saturday?"Saturday":"",this.state.sunday?"Sunday":""]    
-                                        });
-                                    }}
-                                      color={this.state.friday?'white':'black'}
+                                        }}
+                                      color={friday?'white':'black'}
                                 /> 
 
                               {/* dita e SHTUNE*/}
                               <PayButton 
-                              name="Sat"
-                              style1={{width:width*0.22,backgroundColor:this.state.saturday?'#8B0000':'#D3D3D3',borderColor:this.state.saturday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                    onPress={  ()=>{
-                                      this.setState({
-                                        saturday:!this.state.saturday,   
-                                        done:true,
-
-                                      });
-                                    
-                                       this.setState({
-                                        arrayweek:[this.state.monday?"Monday":"",this.state.tuesday?"Tuesday":"",this.state.wensday?"Wednesday":"",this.state.thursday?"Thursday":"",this.state.friday?"Friday":"",this.state.saturday?"Saturday":"",this.state.sunday?"Sunday":""]
-                                      });
+                                
+                                name="Sat"
+                                style1={{width:width*0.22,backgroundColor:saturday?'#8B0000':'#D3D3D3',borderColor:saturday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                                      onPress={ async ()=>{
+                                       
+                                        let {data} = await changeSettings({
+                                          variables :{
+                                            monday:monday,
+                                            tuesday:tuesday,
+                                            wednesday:wednesday,
+                                            thursday:thursday,
+                                            friday:friday,
+                                            saturday:!saturday,
+                                            sunday:sunday,
+                                            price:price
+                                          }
+                                        })
+                              console.log(JSON.stringify(data));
                                       
-                                      
+                                        
                                     }}
-                                      color={this.state.saturday?'white':'black'}
+                                      color={saturday?'white':'black'}
                                 /> 
 
                               {/* dita e DILLE*/}
                               <PayButton  
-                              name="Sun"
-                              style1={{width:width*0.22,backgroundColor:this.state.sunday?'#8B0000':'#D3D3D3',borderColor:this.state.getsunday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
-                                    onPress={  ()=>{
-                                      this.setState({
-                                        sunday:!this.state.sunday,
-                                        done:true,
+                                  
+                                  name="Sun"
+                                  style1={{width:width*0.22,backgroundColor:sunday?'#8B0000':'#D3D3D3',borderColor:sunday?'#8B0000':'#D3D3D3',borderWidth:1,marginRight:15}}
+                                        onPress={ async ()=>{
+                                         
+                                          let {data} = await changeSettings({
+                                            variables :{
+                                              monday:monday,
+                                              tuesday:tuesday,
+                                              wednesday:wednesday,
+                                              thursday:thursday,
+                                              friday:friday,
+                                              saturday:saturday,
+                                              sunday:!sunday,
+                                              price:price
+                                            }
+                                          })
+                                 console.log(JSON.stringify(data));
+                                         
 
-                                        });
-                                       
-                                        this.setState({
-                                          arrayweek:[this.state.monday?"Monday":"",this.state.tuesday?"Tuesday":"",this.state.wensday?"Wednesday":"",this.state.thursday?"Thursday":"",this.state.friday?"Friday":"",this.state.saturday?"Saturday":"",this.state.sunday?"Sunday":""]
-                                        })
-                                       
-                                    }}
-                                      color={this.state.sunday?'white':'black'}
+                                        }}
+                                      color={sunday?'white':'black'}
                                 /> 
                         </View>
                   </View>
                   <View style={styles.paybutton}> 
-                 {this.state.done?
-                    <ProfileButton width={width*0.83} name="Done" loading={this.state.loading} onPress={async  ()=>{
-                   
-                     this.setState({loading:true});
-                      let {data} = await SetPunishment({             
-                        variables:{
-                          ToBePunished:true,
-                          Date_:this.state.arrayweek,
-                          price:this.state.pay,
-                        }});
-                        console.log(this.state.arrayweek);
-                    
-                      this.setState({loading:false,done:false});
-                      alert("Successfully Updated");
-                      this.props.navigation.navigate('Home');
-                      
-                        
-                      }}/>:<View></View>}
+               
                   </View> 
         
   
          </View>
        )}</Mutation>
-                    
-                   
+   }}</Query>    
     }
 }
 
@@ -372,4 +408,4 @@ const styles = StyleSheet.create({
   }
   
 })
-export default withApollo(SettingsScreen);
+export default SettingsScreen;

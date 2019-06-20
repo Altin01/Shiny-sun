@@ -9,11 +9,18 @@ import {
   Dimensions,
   CameraRoll,
   TouchableOpacity,
-  Platform
+  Platform,
+  ActivityIndicator,
+  Modal
 } from 'react-native';
 
 import { WebBrowser,Camera,Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+
+import {Mutation} from 'react-apollo';
+import {START_CONFIRM} from '../graphql/mutation';
+import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
+
 
 
 const { width: winWidth, height: winHeight } = Dimensions.get('window');  
@@ -21,9 +28,7 @@ const { width: winWidth, height: winHeight } = Dimensions.get('window');
 
 export default class HomeScreen extends React.Component {
      static navigationOptions = {
-        header: null,
-        tabBarVisible :false,
-  
+     header:null
       };
       
     constructor(props){
@@ -36,11 +41,17 @@ export default class HomeScreen extends React.Component {
             camera_roll_permission:false,
             takePhoto:false,
             clicked:false,
-            timeS:0
-
+            timeS:90000,
+            uri:"",
+            isTimerStart:false,
+            message:"Start",
+            modalVisible:false
           };
          this.camera;
         
+    }
+    setModalVisible =(visible)=> {
+      this.setState({modalVisible: visible});
     }
     
 
@@ -76,28 +87,8 @@ export default class HomeScreen extends React.Component {
       
    } 
 
-   takePicture= async ()=>{
-    this.setState({takePhoto:false,clicked:true})
-    if(this.camera && this.state.camera_roll_permission && this.state.timeS===0){
-          let photo = await this.camera.takePictureAsync({skipProcessing:true});
-        //   CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
-        //   alert("Your picture is saved in your gallery");
-        //   this.props.navigation.navigate('Home');
-       
-        // }).catch((err)=>{
-        //   alert(err);
-        // })
-        this.setState({timeS:300});
 
-
-
-     }
-
-    
-    
-   }
-
-  render() {
+  render() {  
         if(this.state.cameraPermission === null) {
         return (
             <View style={styles.container}>
@@ -114,57 +105,120 @@ export default class HomeScreen extends React.Component {
            </Text>
       }
       return( 
-        <View style={styles.container}>
-                      <View style={styles.nalt}>
-                       
-                          <TouchableWithoutFeedback style={styles.flip} onPress={()=> this.setState({
-                               type: this.state.type === Camera.Constants.Type.back
-                                ? Camera.Constants.Type.front
-                                : Camera.Constants.Type.back,
-                            })}>
-                               <View style={styles.menuView}>
-                                <Ionicons style={{top:'2%'}} name={Platform.OS === 'ios'?'ios-sync':'md-sync'} size={34} color="white"   />
-                              </View>
-                          </TouchableWithoutFeedback>
+        <Mutation mutation={START_CONFIRM}>{(startConfirm,{loading,data,error})=>(
+        
+           <View style={styles.container}>
+               <Modal
+                 
+                  animationType="slide"
+                  transparent={true}
+                  visible={this.state.modalVisible}
+                  onRequestClose={() => {
+                    alert("Finished");
+                  }} > 
+                    <View style={{height:winHeight*0.6,width:winWidth*0.6,margin:100,backgroundColor:'#FEFCFC',borderRadius:winHeight*0.6/2,justifyContent:'center',alignItems:'center'}}>
+                            <Timer 
+                               totalDuration={this.state.timeS} secs 
+                                //Time Duration
+                               start={this.state.isTimerStart}
+                               //To start
+                                 
+                               handleFinish={()=>{
+                                     
+                                 this.setState({timeS:0,clicked:false,message:"Confirm",modalVisible:false});
+                                }} 
+                                options={styles.timer}
+                                    //options for the styling
+                                    // handleFinish={}
+                                    //can call a function On finish of the time 
+                                 />
+                    </View>
+                  </Modal>
 
-                          <TouchableWithoutFeedback style={styles.blank}>
-                             <View style={styles.blank}>
-
-                             </View>
-                          </TouchableWithoutFeedback>
-                          <TouchableWithoutFeedback style={styles.blank}>
-                             <View style={styles.blank}>
-
-                             </View>
-                          </TouchableWithoutFeedback>
-                          <TouchableWithoutFeedback style={styles.blank}>
-                             <View style={styles.blank}>
-
-                             </View>
-                          </TouchableWithoutFeedback>
-                          <TouchableWithoutFeedback style={styles.home_icon} onPress={()=>this.props.navigation.navigate('Home')}>
-                             <View style={styles.home_view}>
-                               <Ionicons style={{top:'2%'}} name={Platform.OS === 'ios'?'ios-home' :'md-home'} size={34} color="white" />
-                             </View>
-                          </TouchableWithoutFeedback>
+                  
+                          <View style={styles.nalt}>
                           
-                      </View>
-                      {this.state.t == true && 
-                      <Camera
-                            type={this.state.type}
-                            style={styles.preview}
-                            ref={camera => this.camera = camera}
-                      />
-                      }
-                      <View style={styles.posht}>
-                           <TouchableOpacity disabled={this.state.timeS===0?true:false} style={styles.cameratouch} onPress={this.takePicture}>
-                             {/* <Ionicons style={{marginBottom:22}} name={Platform.OS ==='ios'?'ios-camera' :'md-camera'} color="white" size={60} /> */}
-                             {this.state.clicked?<Text>  Timer  </Text>:<Text style={styles.cameratxt}>
-                              Start
-                             </Text>}
-                           </TouchableOpacity>
-                      </View>
-            </View>)
+                              <TouchableWithoutFeedback style={styles.flip} onPress={()=> this.setState({
+                                  type: this.state.type === Camera.Constants.Type.back
+                                    ? Camera.Constants.Type.front
+                                    : Camera.Constants.Type.back,
+                                })}>
+                                  <View style={styles.menuView}>
+                                    <Ionicons style={{top:'2%'}} name={Platform.OS === 'ios'?'ios-sync':'md-sync'} size={34} color="white"   />
+                                  </View>
+                              </TouchableWithoutFeedback>
+
+                              <TouchableWithoutFeedback style={styles.blank}>
+                                <View style={styles.blank}>
+
+                                </View>
+                              </TouchableWithoutFeedback>
+                              <TouchableWithoutFeedback style={styles.blank}>
+                                <View style={styles.blank}>
+
+                                </View>
+                              </TouchableWithoutFeedback>
+                              <TouchableWithoutFeedback style={styles.blank}>
+                                <View style={styles.blank}>
+
+                                </View>
+                              </TouchableWithoutFeedback>
+                              <TouchableWithoutFeedback style={styles.home_icon} onPress={()=>this.props.navigation.navigate('Home')}>
+                                <View style={styles.home_view}>
+                                  <Ionicons style={{top:'2%'}} name={Platform.OS === 'ios'?'ios-home' :'md-home'} size={34} color="white" />
+                                </View>
+                              </TouchableWithoutFeedback>
+                              
+                          </View>
+                          {this.state.t == true && 
+                          <Camera
+                                type={this.state.type}
+                                style={styles.preview}
+                                ref={camera => this.camera = camera}
+                          />
+                          }
+                          <View style={styles.posht}>
+                              <TouchableOpacity disabled={this.state.clicked?true:false} style={styles.cameratouch} onPress={async()=>{
+                              
+                                  if(this.state.timeS>0){
+                                        console.log("Hini");
+                                        let photo = await this.camera.takePictureAsync({skipProcessing:true});
+                                        let {data} = await startConfirm({
+                                          variables:{
+                                            confirm:true
+                                          }
+                                        })
+                                        
+                                        this.setState({uri:photo.uri,clicked:true,isTimerStart:true});
+                                        this.setModalVisible(!this.state.modalVisible);
+                                        alert("The timer start");
+                                        // CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
+                                        //         alert("The timer start");
+                                        //         this.setState({clicked:true,isTimerStart:true})
+                                        // }).catch((err)=>{
+                                        //   alert(err);
+                                        // })
+                                       
+                                      
+                                    }
+                                    if(this.state.message === "Confirm"){
+                                      alert("Successfully ");
+                                      this.setState({message:"Start"});
+                                      this.props.navigation.navigate('Home');
+
+                                      
+                                    }
+                                    
+                                 
+                               }}>
+                                {/* <Ionicons style={{marginBottom:22}} name={Platform.OS ==='ios'?'ios-camera' :'md-camera'} color="white" size={60} /> */}
+                                {  loading?<ActivityIndicator/>: <Text style={styles.cameratxt}>
+                                  {this.state.message}
+                                </Text>}
+                              </TouchableOpacity>
+                          </View>
+                </View>)}
+            </Mutation>)
 
   }
 }
@@ -247,5 +301,8 @@ const styles = StyleSheet.create({
   cameratxt:{
     fontSize:20,
     color:'#FEFEFE'
+  },
+  timer:{
+
   }
 });
