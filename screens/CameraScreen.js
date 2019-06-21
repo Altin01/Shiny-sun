@@ -110,7 +110,6 @@ export default class HomeScreen extends React.Component {
         
            <View style={styles.container}>
                <Modal
-                 
                   animationType="slide"
                   transparent={true}
                   visible={this.state.modalVisible}
@@ -119,29 +118,38 @@ export default class HomeScreen extends React.Component {
                       this.setState({timeS:0,clicked:false,message:"Confirm",modalVisible:false});
                      }
                   }} > 
-                    <View style={{height:winHeight*0.6,width:winWidth*0.8,marginTop:winHeight*0.2,marginLeft:winWidth*0.10,marginRight:winWidth*0.10,backgroundColor:'#FEFCFC',borderRadius:20,justifyContent:'center',alignItems:'center'}}>
-                            <Timer 
-                               totalDuration={this.state.timeS} secs 
-                                //Time Duration
-                               start={this.state.isTimerStart}
-                               //To start
-                            
-                               handleFinish={()=>{
-                                 this.setState({timeS:0,clicked:false,message:"Confirm",modalVisible:false});
-                                }} 
-                                options={styles.timer}
-                                    //options for the styling
-                                    // handleFinish={}
-                                    //can call a function On finish of the time 
-                                 />
-                                <TouchableOpacity style={{height:50,width:200,justifyContent:'center',backgroundColor:"#B20707",
-                               alignItems:'center'}} onPress={()=>{
-                                 this.setState({isTimerStart:!this.state.isTimerStart})
-                               }}>
-                                  {this.state.isTimerStart?<Text>Stop</Text>:<Text>
-                                    Start
-                                  </Text>}
+                    <View style={{height:winHeight*0.6,width:winWidth*0.8,marginTop:winHeight*0.2,marginLeft:winWidth*0.10,marginRight:winWidth*0.10,backgroundColor:'#FEFCFC',borderRadius:20}}>
+                         <View style={{height:'15%'}}>
+
+                         </View>
+                          <View style={styles.modalNalt}>
+                              <Timer 
+                                totalDuration={this.state.timeS} secs 
+                                  //Time Duration
+                                start={this.state.isTimerStart}
+                                //To start
+                              
+                                handleFinish={()=>{
+                                  this.setState({timeS:0,clicked:false,message:"Confirm",modalVisible:false});
+                                  }} 
+                                 options={options}
+                                      //options for the styling
+                                      // handleFinish={}
+                                      //can call a function On finish of the time 
+                                  />
+                             </View>
+                            <View style={styles.modalPosht}>
+                                <TouchableOpacity style={{height:50,width:200,justifyContent:'center',backgroundColor:"#A91010", alignItems:'center',borderRadius:5}} onPress={()=>{
+                                    this.setState({isTimerStart:!this.state.isTimerStart})
+                                  }}>
+                                      {this.state.isTimerStart?<Text style={{fontSize:25,color: '#A6ABA7'}}>Stop</Text>:<Text style={{fontSize:25,color: '#A6ABA7'}}>
+                                        Start
+                                      </Text>}
                                 </TouchableOpacity>
+                             </View>
+                             <View style={{height:'15%'}}>
+
+                            </View>
                     </View>
                   </Modal>
 
@@ -284,8 +292,8 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     borderWidth:1,
-    borderColor:'#1B971B',
-    backgroundColor:'#1B971B',
+    borderColor:'#E5DFDF',
+    backgroundColor:'#E5DFDF',
     borderRadius:35,
      marginBottom  :20
 
@@ -317,10 +325,35 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   cameratxt:{
-    fontSize:20,
-    color:'#FEFEFE'
+    fontSize:18,
+    color:'black'
   },
   timer:{
+    
+  },
+  modalNalt:{
+    height:'35%',
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  modalPosht:{
+    height:'35%',
+    justifyContent:'center',
+    alignItems:'center',
 
   }
 });
+const options = {
+  container: {
+    backgroundColor: '#A6ABA7',
+    padding: 5,
+    borderRadius: 5,
+    width: 200,
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 25,
+    color: '#A91010',
+    marginLeft: 7,
+  },
+};
