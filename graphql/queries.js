@@ -11,8 +11,8 @@ query Me {
 `
 export const PUNISHED_DATE =gql`
 query PunishedDate {
-    punishedDate{
-        id,
+    punish edDate{
+       id,
         Date_,
         price,
         ToBePunished,
@@ -20,3 +20,13 @@ query PunishedDate {
 }
 
 `
+
+export const doneTaskSuccesfully =gql`
+query{
+    doneTaskSuccesfully{
+      id,
+      published,
+      day,
+    }
+  }
+  `
