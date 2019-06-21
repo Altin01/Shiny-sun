@@ -18,8 +18,9 @@ import { WebBrowser,Camera,Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
 import {Mutation} from 'react-apollo';
-import {START_CONFIRM} from '../graphql/mutation';
+import {START_CONFIRM,CREATE_PICTURE  } from '../graphql/mutation';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
+
 
 
 
@@ -114,17 +115,18 @@ export default class HomeScreen extends React.Component {
                   transparent={true}
                   visible={this.state.modalVisible}
                   onRequestClose={() => {
-                    alert("Finished");
+                     if(!this.state.isTimerStart){
+                      this.setState({timeS:0,clicked:false,message:"Confirm",modalVisible:false});
+                     }
                   }} > 
-                    <View style={{height:winHeight*0.6,width:winWidth*0.6,margin:100,backgroundColor:'#FEFCFC',borderRadius:winHeight*0.6/2,justifyContent:'center',alignItems:'center'}}>
+                    <View style={{height:winHeight*0.6,width:winWidth*0.8,marginTop:winHeight*0.2,marginLeft:winWidth*0.10,marginRight:winWidth*0.10,backgroundColor:'#FEFCFC',borderRadius:20,justifyContent:'center',alignItems:'center'}}>
                             <Timer 
                                totalDuration={this.state.timeS} secs 
                                 //Time Duration
                                start={this.state.isTimerStart}
                                //To start
-                                 
+                            
                                handleFinish={()=>{
-                                     
                                  this.setState({timeS:0,clicked:false,message:"Confirm",modalVisible:false});
                                 }} 
                                 options={styles.timer}
@@ -132,6 +134,14 @@ export default class HomeScreen extends React.Component {
                                     // handleFinish={}
                                     //can call a function On finish of the time 
                                  />
+                                <TouchableOpacity style={{height:50,width:200,justifyContent:'center',backgroundColor:"#B20707",
+                               alignItems:'center'}} onPress={()=>{
+                                 this.setState({isTimerStart:!this.state.isTimerStart})
+                               }}>
+                                  {this.state.isTimerStart?<Text>Stop</Text>:<Text>
+                                    Start
+                                  </Text>}
+                                </TouchableOpacity>
                     </View>
                   </Modal>
 
@@ -169,7 +179,7 @@ export default class HomeScreen extends React.Component {
                                 </View>
                               </TouchableWithoutFeedback>
                               
-                          </View>
+                           </View>
                           {this.state.t == true && 
                           <Camera
                                 type={this.state.type}
@@ -178,10 +188,8 @@ export default class HomeScreen extends React.Component {
                           />
                           }
                           <View style={styles.posht}>
-                              <TouchableOpacity disabled={this.state.clicked?true:false} style={styles.cameratouch} onPress={async()=>{
+                             {this.state.timeS>0? <TouchableOpacity disabled={this.state.clicked?true:false} style={styles.cameratouch} onPress={async()=>{
                               
-                                  if(this.state.timeS>0){
-                                        console.log("Hini");
                                         let photo = await this.camera.takePictureAsync({skipProcessing:true});
                                         let {data} = await startConfirm({
                                           variables:{
@@ -189,7 +197,7 @@ export default class HomeScreen extends React.Component {
                                           }
                                         })
                                         
-                                        this.setState({uri:photo.uri,clicked:true,isTimerStart:true});
+                                        this.setState({uri:photo.uri,clicked:true,isTimerStart:true,message:"Confirm"});
                                         this.setModalVisible(!this.state.modalVisible);
                                         alert("The timer start");
                                         // CameraRoll.saveToCameraRoll(photo.uri,"photo").then(()=>{
@@ -199,23 +207,33 @@ export default class HomeScreen extends React.Component {
                                         //   alert(err);
                                         // })
                                        
-                                      
-                                    }
-                                    if(this.state.message === "Confirm"){
-                                      alert("Successfully ");
-                                      this.setState({message:"Start"});
-                                      this.props.navigation.navigate('Home');
-
-                                      
-                                    }
-                                    
-                                 
                                }}>
                                 {/* <Ionicons style={{marginBottom:22}} name={Platform.OS ==='ios'?'ios-camera' :'md-camera'} color="white" size={60} /> */}
                                 {  loading?<ActivityIndicator/>: <Text style={styles.cameratxt}>
                                   {this.state.message}
                                 </Text>}
-                              </TouchableOpacity>
+                              </TouchableOpacity>:
+                              <Mutation mutation={CREATE_PICTURE}>{(createPicture,{data,loading,error})=>(
+                                <TouchableOpacity style={styles.cameratouch} disabled={this.state.clicked?true:false} onPress={async ()=>{
+                                          console.log("Confirm");
+                                          this.setState({clicked:true});
+                                         let photo = await this.camera.takePictureAsync({skipProcessing:true});
+                                           let {data} = await createPicture({
+                                              variables:{
+                                                published:true
+                                              }
+                                            });
+                                            this.setState({message:"Start"});
+                                            alert("Successfully");
+                                            this.props.navigation.navigate('Home');
+                                              
+                                            
+                                        
+                                }}>
+                                 {loading?<ActivityIndicator/>:error?<Text>{error.message}</Text>: <Text style={styles.cameratxt}>
+                                      {this.state.message}
+                                    </Text>}
+                                </TouchableOpacity>)}</Mutation>}
                           </View>
                 </View>)}
             </Mutation>)

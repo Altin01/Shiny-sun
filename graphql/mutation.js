@@ -73,7 +73,7 @@ export const START_CONFIRM = gql`
 export const CREATE_PICTURE=gql`
   mutation createPicture($published:Boolean!){
      createPicture(published:$published){
-       id,
+      
        published,
       
      }
