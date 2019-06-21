@@ -13,7 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default class HomeScreen extends React.Component {
      static navigationOptions = {
-       header:null,
+      title:'HomeScreen'
     
       };
 

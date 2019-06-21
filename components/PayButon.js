@@ -3,7 +3,8 @@ import {
 View,
 TouchableOpacity,
 Text,
-StyleSheet
+StyleSheet,
+ActivityIndicator
 } from 'react-native';
 
 export default class PayButton extends Component{

@@ -20,7 +20,7 @@ export default class Statistics extends React.PureComponent {
             <View style={styles.Container}>
            
             <TextInput
-             onChangeText={number => this.setState({ number})}
+             onChangeText={(number)=> this.setState({number:text})}
             
             
             
@@ -29,10 +29,10 @@ export default class Statistics extends React.PureComponent {
 
             <Query query={gql`
                  query{
-             doneTaskSuccesfully{
-              id,
-              published,
-              day,
+                 doneTaskSuccesfully{
+                id,
+                published,
+               day,
             }
           }
         

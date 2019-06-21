@@ -13,7 +13,7 @@ let {height,width} = Dimensions.get('window');
 
 export default class ProfileScreen extends Component { 
     static navigationOptions = {
-       header:null
+       title:"Profile"
     };
     render(){
         return(
