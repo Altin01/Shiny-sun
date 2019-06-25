@@ -10,19 +10,24 @@ export const  GET_USER  = gql`
     }
 
 `
-export const PUNISHED_DAYS =gql`
-query punishedDays {
-    punishedDays {
-     id,
-     monday,
-     tuesday,
-     wednesday,
-     thursday,
-     friday,
-     saturday,
-     sunday,
-     price
+export const PUNISHED_DATE =gql`
+query PunishedDate {
+    punish edDate{
+       id,
+        Date_,
+        price,
+        ToBePunished,
     }
 }
 
 `
+
+export const doneTaskSuccesfully =gql`
+query{
+    doneTaskSuccesfully{
+      id,
+      published,
+      day,
+    }
+  }
+  `
