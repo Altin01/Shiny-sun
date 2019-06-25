@@ -20,12 +20,12 @@ export default class ProfileScreen extends Component {
             <View style={styles.container}>
                <ScrollView style={styles.scroll_view}>
                
-                    <ProfileButton width={width}  name="Edit Profile"        onPress={()=>this.props.navigation.navigate('EditProfile')}/>
-                    <ProfileButton width={width}  name="Edit Password "      onPress={()=>this.props.navigation.navigate('Password')} />
-                    <ProfileButton width={width}  name="Credit Card "        onPress={()=>this.props.navigation.navigate('CreditCard')} />
-                    <ProfileButton width={width}  name="Push Notifications " onPress={()=>this.props.navigation.navigate('PushNotifications')}  />
-                    <ProfileButton width={width}  name="Statistics"          onPress={()=>this.props.navigation.navigate('Statistics')}  />  
-                    <ProfileButton width={width}  name="Logout "            onPress={()=>this.props.navigation.navigate('Logout')} />
+                    <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Edit Profile"        onPress={()=>this.props.navigation.navigate('EditProfile')}/>
+                    <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Edit Password "      onPress={()=>this.props.navigation.navigate('Password')} />
+                    <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Credit Card "        onPress={()=>this.props.navigation.navigate('CreditCard')} />
+                    <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Push Notifications " onPress={()=>this.props.navigation.navigate('PushNotifications')}  />
+                    <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Statistics"          onPress={()=>this.props.navigation.navigate('Statistics')}  />  
+                    <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Logout "            onPress={()=>this.props.navigation.navigate('Logout')} />
 
                </ScrollView>
             </View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     },
     scroll_view:{
         flex:1,
-        padding:5,
+       
        
     }
 })

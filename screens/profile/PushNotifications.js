@@ -3,6 +3,9 @@
                 import {View,Text,StyleSheet,Picker,ScrollView} from 'react-native';
 
                 export default class PushNotifications extends Component{
+                    static navigationOptions = {
+                        title :"Push Notificatoin"
+                         };
                     constructor(props){
                         super(props)
                         this.state={

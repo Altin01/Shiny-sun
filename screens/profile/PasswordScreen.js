@@ -21,6 +21,9 @@
       let {height,width}=Dimensions.get('window')
 
                 export default class PasswordScreen extends Component{
+                    static navigationOptions  ={
+                       title:"Edit"
+                    };
 
                     constructor(props) {
                         super(props);

@@ -283,7 +283,8 @@ class SettingsScreen extends Component {
                                           saturday:saturday,
                                           sunday:sunday,
                                           price:price
-                                        }
+                                        },
+                                        
                                       })
                                      
 

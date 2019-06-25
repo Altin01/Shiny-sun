@@ -73,10 +73,18 @@ const SettingsStack = createStackNavigator({
       }
 
   },{
-    navigationOptions:({navigation})=>{
-       return header = false
-     }
-    
+    defaultNavigationOptions: {
+      headerStyle: {
+          backgroundColor: '#A9A9A9',
+          elevation: 0,
+          shadowOpacity: 0
+      },
+      headerTintColor: '#333333',
+      headerTitleStyle: {
+          fontWeight: 'bold',
+          color: '#ffffff'
+      }
+  }
   });
  
   

@@ -41,10 +41,13 @@ import MyNavigator from '../navigation/MyNavigator';
 //Stacku kryesor per home screen 
 const mainStackNavigator = createStackNavigator({
    Tabs:MyNavigator,
-   Password:PasswordScreen,
-   Logout:LogoutScreen,
-   Camera:CameraScreen,
-   EditProfile:EditProfile,
+   Password:{
+      screen:PasswordScreen,
+    
+   },
+   Logout:{screen:LogoutScreen},
+   Camera:{screen:CameraScreen},
+   EditProfile:{screen:EditProfile},
    CreditCard:CreditCard,
    PushNotifications:PushNotifications,
    Statistics:Statistics,

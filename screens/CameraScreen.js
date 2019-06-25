@@ -16,7 +16,7 @@ import {
 
 import { WebBrowser,Camera,Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
-
+  
 import {Mutation} from 'react-apollo';
 import {START_CONFIRM,CREATE_PICTURE  } from '../graphql/mutation';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
@@ -225,7 +225,7 @@ export default class HomeScreen extends React.Component {
                                 <TouchableOpacity style={styles.cameratouch} disabled={this.state.clicked?true:false} onPress={async ()=>{
                                           console.log("Confirm");
                                           this.setState({clicked:true});
-                                         let photo = await this.camera.takePictureAsync({skipProcessing:true});
+                                          let photo = await this.camera.takePictureAsync({skipProcessing:true});
                                            let {data} = await createPicture({
                                               variables:{
                                                 published:true
@@ -235,8 +235,6 @@ export default class HomeScreen extends React.Component {
                                             alert("Successfully");
                                             this.props.navigation.navigate('Home');
                                               
-                                            
-                                        
                                 }}>
                                  {loading?<ActivityIndicator/>:error?<Text>{error.message}</Text>: <Text style={styles.cameratxt}>
                                       {this.state.message}

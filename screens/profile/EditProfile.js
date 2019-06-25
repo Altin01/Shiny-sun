@@ -14,6 +14,10 @@ import {EDIT_ACCOUNT} from '../../graphql/mutation';
 let {height,width}=Dimensions.get('window')
 
 export default class EditProfile extends Component{
+  static navigationOptions = {
+    title :"EditPassword"
+};
+
   constructor(props) {
     super(props);
       this.state = {
