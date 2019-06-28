@@ -12,22 +12,31 @@ export const  GET_USER  = gql`
 `
 export const PUNISHED_DATE =gql`
 query PunishedDate {
-    punish edDate{
+    punishedDate{
        id,
         Date_,
         price,
         ToBePunished,
     }
 }
-
 `
-
-export const doneTaskSuccesfully =gql`
-query{
-    doneTaskSuccesfully{
-      id,
-      published,
-      day,
+export const MY_MISSED_TASKS = gql`
+ query myMissedTasks {
+     myMissedTasks{
+         id,
+         published,
+         day,
+         createdAt,
+     }
+ }
+`
+export const MY_SUCCES_TASKS  = gql`
+    query mySuccesTasks{
+        mySuccesTasks{
+            id,
+            createdAt,
+            published,
+            day
+        }
     }
-  }
-  `
+`

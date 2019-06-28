@@ -23,7 +23,7 @@ import ProfileScreen from '../screens/profile/ProfileScreen';
 import CameraScreen from '../screens/CameraScreen';
 import EditProfile from '../screens/profile/EditProfile';
 import CreditCard from  '../screens/profile/CreditCard';
-import PushNotifications from '../screens/profile/PushNotifications';
+
 import Statistics from '../screens/profile/Statistics';
 
 
@@ -49,7 +49,6 @@ const mainStackNavigator = createStackNavigator({
    Camera:{screen:CameraScreen},
    EditProfile:{screen:EditProfile},
    CreditCard:CreditCard,
-   PushNotifications:PushNotifications,
    Statistics:Statistics,
 
    

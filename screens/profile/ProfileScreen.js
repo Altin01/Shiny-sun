@@ -23,7 +23,6 @@ export default class ProfileScreen extends Component {
                     <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Edit Profile"        onPress={()=>this.props.navigation.navigate('EditProfile')}/>
                     <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Edit Password "      onPress={()=>this.props.navigation.navigate('Password')} />
                     <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Credit Card "        onPress={()=>this.props.navigation.navigate('CreditCard')} />
-                    <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Push Notifications " onPress={()=>this.props.navigation.navigate('PushNotifications')}  />
                     <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Statistics"          onPress={()=>this.props.navigation.navigate('Statistics')}  />  
                     <ProfileButton style={{marginBottom:10}} width={width*0.83}  name="Logout "            onPress={()=>this.props.navigation.navigate('Logout')} />
 
