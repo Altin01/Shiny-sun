@@ -48,7 +48,9 @@ class SettingsScreen extends Component {
         </View>
       }else if (error){
           return <View>
-                error
+              <Text>
+                {error.message}
+              </Text>
           </View>
       }
       let monday = data.punishedDays.monday;
