@@ -43,9 +43,106 @@ class SettingsScreen extends Component {
   render() {
    return <Query query={PUNISHED_DAYS}>{({data,loading,error})=>{
       if(loading){
-        return <View>
-            <ActivityIndicator/>
+        return   <View style={styles.container}>
+        <View style={styles.punishtext}>
+          <Text>
+                Select how much do you want to be punished.
+          </Text>
         </View>
+        <View style={styles.butonat}>
+          
+              <PayButton 
+                  loading={loading}
+                  color={'black'} 
+                  style1={{backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:40}}
+                  name="1$" 
+              />
+              <PayButton 
+                  loading={loading}
+                  color={'black'}
+                  style1={{backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:40}}
+                  name="5$" 
+              />
+              <PayButton 
+                  loading={loading}
+                  color={'black'}
+                  style1={{backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:15}}
+                  name="10$"
+              />
+            
+
+        </View>
+        <View style={styles.ditet}>
+          <View style={styles.week_text}>
+              <Text style={{justifyContent:'center',alignItems:'center'}}>
+                Turn On or Of which days you don't want to be punished when you don't make a photo(By Default all days are ON).
+              </Text>
+          </View>
+          <View style={styles.ditet_nalt}>
+
+                {/* dita e HANE*/}
+                <PayButton 
+                      loading={loading}
+                      name="Mon"
+                      style1={{width:width*0.22,backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:5}}
+                      color={'black'}
+                /> 
+
+                {/* dita e MARTE*/}           
+                <PayButton 
+                     loading={loading}
+                      name="Tues"
+                      style1={{width:width*0.22,backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:5}}
+                      color={'black'} /> 
+
+                {/* dita e MERKURE*/}
+                <PayButton 
+                    loading={loading}
+                    name="Wed"
+                    style1={{width:width*0.22,backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:5}}
+                    color={'black'}
+                  /> 
+
+                {/* dita e ENJTE*/}
+                <PayButton 
+                    loading={loading}
+                    name="Thurs"
+                    style1={{width:width*0.22,backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:5}}
+                    color={'black'}
+                  /> 
+              </View>
+              <View style={styles.ditet_posht}>
+                    {/* dita e PREMTE*/}
+                    <PayButton
+                        loading={loading}
+                        name="Fri"
+                        style1={{width:width*0.22,backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:15}}
+                        color={'black'}
+                      /> 
+
+                    {/* dita e SHTUNE*/}
+                    <PayButton 
+                        loading={loading}
+                        name="Sat"
+                        style1={{width:width*0.22,backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:15}}
+                        color={'black'}
+                      /> 
+
+                    {/* dita e DILLE*/}
+                    <PayButton  
+                        loading={loading}
+                        name="Sun"
+                        style1={{width:width*0.22,backgroundColor:'#D3D3D3',borderColor:'#D3D3D3',borderWidth:1,marginRight:15}}
+                        color={'black'}
+                      /> 
+              </View>
+        </View>
+        <View style={styles.paybutton}> 
+     
+        </View> 
+
+
+</View>
       }else if (error){
           return <View>
               <Text>

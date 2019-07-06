@@ -13,10 +13,9 @@ export default class PayButton extends Component{
        return(
      <View>
       <TouchableOpacity style={[style.container,this.props.style1]} onPress={this.props.onPress} >
-          <Text style={[style.txt,{color:this.props.color}]}>
+         {this.props.loading?<ActivityIndicator/>: <Text style={[style.txt,{color:this.props.color}]}>
               {this.props.name}
-          </Text>
-
+          </Text>}
       </TouchableOpacity>
       </View>
   );
