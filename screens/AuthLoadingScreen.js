@@ -2,6 +2,9 @@ import React,{Component} from 'react';
 import {AsyncStorage,View,ActivityIndicator,StyleSheet} from 'react-native';
 
 export default class AuthLoadingScreen extends Component {
+    static navitaionOptions={
+        header:null
+    }
     constructor(props){
         super(props);
          this.loadApp();
